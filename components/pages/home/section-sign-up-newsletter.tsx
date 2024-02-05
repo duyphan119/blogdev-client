@@ -1,0 +1,133 @@
+"use client";
+
+import Link from "next/link";
+import { PiArrowLineDownRightBold } from "react-icons/pi";
+import { Button } from "@/components/ui/button";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const formSchema = z.object({
+    email: z.string().email({
+        message: "Email is invalid",
+    }),
+});
+
+export type SignUpNewsletterRequest = z.infer<typeof formSchema>;
+
+type Props = {};
+
+const SectionSignUpNewsletter = (props: Props) => {
+    const form = useForm<SignUpNewsletterRequest>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "duychomap4567@gmail.com",
+        },
+    });
+
+    const onSubmit = async (values: SignUpNewsletterRequest) => {
+        console.log(values);
+    };
+
+    return (
+        <section
+            className="p-32"
+            style={{
+                backgroundImage: `url("https://i.pinimg.com/564x/85/bf/c9/85bfc913541db29d098b15c0b2f3ce4f.jpg")`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+            }}
+        >
+            <div className="flex items-center md:gap-8 bg-white text-black py-14 px-8">
+                <div className="md:flex-1 w-full md:w-auto space-y-4">
+                    <div className="">
+                        <PiArrowLineDownRightBold className="text-5xl" />
+                    </div>
+                    <p className="uppercase text-2xl font-bold">
+                        SIGN UP FOR THE DAILY NEWSLETTER
+                    </p>
+                    <div className="">
+                        <p className="">
+                            Our biggest stories, delivered to your inbox every
+                            day.
+                        </p>
+                        <Link
+                            href="/newsletter"
+                            className="text-neutral-500 underline-offset-4 underline"
+                        >
+                            See all newsletters.
+                        </Link>
+                    </div>
+                </div>
+                <div className="md:flex-1 w-full md:w-auto space-y-4">
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex items-center gap-8"
+                        >
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Email address"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button
+                                type="submit"
+                                className="uppercase rounded-none"
+                            >
+                                Submit
+                            </Button>
+                        </form>
+                    </Form>
+                    <p className="text-neutral-500 text-[0.725rem]">
+                        By signing up you agree to our&nbsp;
+                        <Link
+                            className="underline-offset-4 underline"
+                            href="https://www.condenast.com/user-agreement"
+                        >
+                            User Agreement
+                        </Link>
+                        &nbsp; (including the&nbsp;
+                        <Link
+                            className="underline-offset-4 underline"
+                            href="https://www.condenast.com/user-agreement#introduction-arbitration-notice"
+                        >
+                            class action waiver and arbitration provisions
+                        </Link>
+                        ), our&nbsp;
+                        <Link
+                            className="underline-offset-4 underline"
+                            href="https://www.condenast.com/privacy-policy"
+                        >
+                            Privacy Policy &amp; Cookie Statement
+                        </Link>
+                        &nbsp; and to receive marketing and account-related
+                        emails from WIRED. You can unsubscribe at any time.
+                    </p>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default SectionSignUpNewsletter;
