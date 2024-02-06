@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 
 type Props = {
     className?: string;
+    mode?: "dark" | "light";
+    letterClassName?: string;
 };
 
 const Logo = (props: Props) => {
@@ -18,8 +20,13 @@ const Logo = (props: Props) => {
                 <div
                     key={letter}
                     className={cn(
-                        index % 2 === 0 ? "bg-black text-white px-2" : "",
-                        "text-3xl"
+                        index % 2 === 0
+                            ? props.mode === "light"
+                                ? "bg-black text-white"
+                                : "bg-white text-black"
+                            : "",
+                        "text-3xl px-2",
+                        props.letterClassName
                     )}
                 >
                     {letter}

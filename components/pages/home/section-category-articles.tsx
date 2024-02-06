@@ -1,12 +1,14 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
+import { ArticleCategory } from "@/types/category";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
-import { categoryArticles } from "./data";
 
-type Props = {};
+type Props = {
+    categories: ArticleCategory[];
+};
 
 const SectionCategoryArticles = (props: Props) => {
     return (
@@ -14,7 +16,7 @@ const SectionCategoryArticles = (props: Props) => {
             <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-12 md:col-span-9">
                     <div className="grid grid-cols-12 gap-8">
-                        {categoryArticles.map((category) => {
+                        {props.categories.map((category) => {
                             return (
                                 <div
                                     key={category.id}

@@ -1,10 +1,11 @@
 "use client";
 
+import { ArticleCard } from "@/types/article";
+import Image from "next/image";
+import Link from "next/link";
 import { RiUser3Line } from "react-icons/ri";
 import Box from "./box";
 import { todayArticles } from "./data";
-import Image from "next/image";
-import Link from "next/link";
 
 type ArticleCardProps = {
     title: string;
@@ -16,7 +17,7 @@ type ArticleCardProps = {
     categorySlug: string;
 };
 
-const ArticleCard = (props: ArticleCardProps) => {
+const Card = (props: ArticleCardProps) => {
     return (
         <div className="space-y-2">
             <div className="image relative w-full pb-[60%]">
@@ -46,7 +47,9 @@ const ArticleCard = (props: ArticleCardProps) => {
     );
 };
 
-type Props = {};
+type Props = {
+    articles: ArticleCard[];
+};
 
 const SectionToday = (props: Props) => {
     return (
@@ -54,34 +57,34 @@ const SectionToday = (props: Props) => {
             <Box title="Today">
                 <div className="grid grid-cols-12 gap-8">
                     <div className="col-span-12 md:col-span-4 space-y-8">
-                        <ArticleCard
-                            title={todayArticles[0].title}
-                            author={todayArticles[0].author.full_name}
-                            imageUrl={todayArticles[0].image_url}
+                        <Card
+                            title={props.articles[0].title}
+                            author={props.articles[0].author}
+                            imageUrl={props.articles[0].image_url}
                             introductionText=""
-                            slug={todayArticles[0].slug}
-                            categoryName={todayArticles[0].category.name}
-                            categorySlug={todayArticles[0].category.slug}
+                            slug={props.articles[0].slug}
+                            categoryName={props.articles[0].category_name}
+                            categorySlug={props.articles[0].category_slug}
                         />
-                        <ArticleCard
-                            title={todayArticles[1].title}
-                            author={todayArticles[1].author.full_name}
-                            imageUrl={todayArticles[1].image_url}
+                        <Card
+                            title={props.articles[1].title}
+                            author={props.articles[1].author}
+                            imageUrl={props.articles[1].image_url}
                             introductionText=""
-                            slug={todayArticles[1].slug}
-                            categoryName={todayArticles[1].category.name}
-                            categorySlug={todayArticles[1].category.slug}
+                            slug={props.articles[1].slug}
+                            categoryName={props.articles[1].category_name}
+                            categorySlug={props.articles[1].category_slug}
                         />
                     </div>
                     <div className="col-span-12 md:col-span-8">
-                        <ArticleCard
-                            title={todayArticles[2].title}
-                            author={todayArticles[2].author.full_name}
-                            imageUrl={todayArticles[2].image_url}
+                        <Card
+                            title={props.articles[2].title}
+                            author={props.articles[2].author}
+                            imageUrl={props.articles[2].image_url}
                             introductionText=""
-                            slug={todayArticles[2].slug}
-                            categoryName={todayArticles[2].category.name}
-                            categorySlug={todayArticles[2].category.slug}
+                            slug={props.articles[2].slug}
+                            categoryName={props.articles[2].category_name}
+                            categorySlug={props.articles[2].category_slug}
                         />
                     </div>
                 </div>

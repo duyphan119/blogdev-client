@@ -1,17 +1,20 @@
 "use client";
 
-import React, { Fragment } from "react";
-import Box from "./box";
-import { longReadsArticles } from "./data";
-import Link from "next/link";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import { ArticleCard } from "@/types/article";
+import Image from "next/image";
+import Link from "next/link";
+import { Fragment } from "react";
 import { RiUser3Line } from "react-icons/ri";
+import Box from "./box";
 
-type Props = {};
+type Props = {
+    articles: ArticleCard[];
+};
 
 const SectionMostComments = (props: Props) => {
-    const [firstArticle, ...articles] = longReadsArticles;
+    const [firstArticle, ...articles] = props.articles;
+    if (!firstArticle) return null;
     return (
         <section>
             <Box title="Most comments">
@@ -29,7 +32,7 @@ const SectionMostComments = (props: Props) => {
                         </div>
                         <div className="col-span-12 md:col-span-6 flex gap-2 flex-col">
                             <p className="category font-medium uppercase">
-                                {firstArticle.category.name}
+                                {firstArticle.category_name}
                             </p>
                             <Link
                                 href={firstArticle.slug}
@@ -39,20 +42,14 @@ const SectionMostComments = (props: Props) => {
                             </Link>
                             <p className="author text-neutral-700">
                                 <RiUser3Line className="inline mr-1 -translate-y-0.5" />
-                                {firstArticle.author.full_name}
+                                {firstArticle.author}
                             </p>
                             <div className="introduction-text mt-auto font-thin">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Fugiat non est ad et
-                                doloremque blanditiis culpa optio harum odit
-                                porro iste libero hic itaque possimus, quia
-                                deleniti debitis necessitatibus ab reprehenderit
-                                eligendi iusto totam. Tempore fuga a debitis
-                                magni unde.
+                                {firstArticle.introduction_text}
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex justify-between w-full gap-4">
                         {articles.map((article, index) => {
                             return (
                                 <Fragment key={article.id}>
@@ -71,7 +68,7 @@ const SectionMostComments = (props: Props) => {
                                             </Link>
                                             <p className="author text-neutral-700">
                                                 <RiUser3Line className="inline mr-1 -translate-y-0.5" />
-                                                {article.author.full_name}
+                                                {article.author}
                                             </p>
                                         </div>
                                         <div className="image relative w-20 h-20 flex-shrink-0">

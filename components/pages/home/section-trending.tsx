@@ -1,24 +1,26 @@
 "use client";
 
-import React, { Fragment } from "react";
-import Box from "./box";
-import { longReadsArticles } from "./data";
-import Link from "next/link";
+import { ArticleCard } from "@/types/article";
 import Image from "next/image";
-import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 import { RiUser3Line } from "react-icons/ri";
+import Box from "./box";
 
-type Props = {};
+type Props = {
+    articles: ArticleCard[];
+};
 
 const SectionTrending = (props: Props) => {
-    const [firstArticle, ...articles] = longReadsArticles;
     return (
         <section>
             <Box title="Trending">
-                <div className="flex gap-8">
-                    {articles.map((article, index) => {
+                <div className="grid grid-cols-4 gap-8">
+                    {props.articles.map((article, index) => {
                         return (
-                            <div className="space-y-2" key={article.id}>
+                            <div
+                                className="space-y-2 col-span-4 sm:col-span-2 md:col-span-1"
+                                key={article.id}
+                            >
                                 <div className="image relative w-full pb-[60%]">
                                     <Image
                                         src={article.image_url}
@@ -30,7 +32,7 @@ const SectionTrending = (props: Props) => {
                                     />
                                 </div>
                                 <p className="category font-medium uppercase">
-                                    {article.category.name}
+                                    {article.category_name}
                                 </p>
                                 <Link
                                     href={article.slug}
@@ -39,16 +41,11 @@ const SectionTrending = (props: Props) => {
                                     {article.title}
                                 </Link>
                                 <p className="introduction-text line-clamp-4 font-thin">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Et ipsum libero pariatur
-                                    in perspiciatis odio facilis, eos
-                                    exercitationem impedit, cupiditate, ratione
-                                    sapiente nulla inventore. Voluptas nostrum
-                                    veniam suscipit cupiditate voluptatem!
+                                    {article.introduction_text}
                                 </p>
                                 <p className="author text-neutral-700">
                                     <RiUser3Line className="inline mr-1 -translate-y-0.5" />
-                                    {article.author.full_name}
+                                    {article.author}
                                 </p>
                             </div>
                         );

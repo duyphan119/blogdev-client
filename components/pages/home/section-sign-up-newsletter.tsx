@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import subscriberApi from "@/api/subscriber-api";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     email: z.string().email({
@@ -23,20 +25,35 @@ const formSchema = z.object({
     }),
 });
 
-export type SignUpNewsletterRequest = z.infer<typeof formSchema>;
+export type SubscriberRequest = z.infer<typeof formSchema>;
 
 type Props = {};
 
 const SectionSignUpNewsletter = (props: Props) => {
-    const form = useForm<SignUpNewsletterRequest>({
+    const { toast } = useToast();
+
+    const form = useForm<SubscriberRequest>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "duychomap4567@gmail.com",
+            email: "",
         },
     });
 
-    const onSubmit = async (values: SignUpNewsletterRequest) => {
-        console.log(values);
+    const onSubmit = async (values: SubscriberRequest) => {
+        try {
+            const response = await subscriberApi.create(values);
+            if (response.message === "Success") {
+                toast({
+                    title: "Thank you for sign up newsletter. We will send email when having a new post.",
+                });
+                form.reset();
+            }
+        } catch (error) {
+            toast({
+                title: "Something went wrong. Try Again",
+                variant: "destructive",
+            });
+        }
     };
 
     return (
