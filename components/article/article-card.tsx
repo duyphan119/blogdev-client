@@ -36,7 +36,7 @@ const ArticleCard = (props: Props) => {
             >
                 {props.title}
             </Link>
-            <p className="author text-neutral-700">{props.author}</p>
+            <p className="author text-neutral-700">{props.author.full_name}</p>
         </div>
     );
 };

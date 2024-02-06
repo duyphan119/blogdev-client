@@ -34,7 +34,7 @@ const Card = (props: ArticleCardProps) => {
                 {props.categoryName}
             </p>
             <Link
-                href={props.slug}
+                href={`/article/${props.slug}`}
                 className="title text-lg font-bold line-clamp-2 underline-offset-4 hover:underline"
             >
                 {props.title}
@@ -52,6 +52,7 @@ type Props = {
 };
 
 const SectionToday = (props: Props) => {
+    console.log(props.articles);
     return (
         <section>
             <Box title="Today">
@@ -59,7 +60,7 @@ const SectionToday = (props: Props) => {
                     <div className="col-span-12 md:col-span-4 space-y-8">
                         <Card
                             title={props.articles[0].title}
-                            author={props.articles[0].author}
+                            author={props.articles[0].author_full_name}
                             imageUrl={props.articles[0].image_url}
                             introductionText=""
                             slug={props.articles[0].slug}
@@ -68,7 +69,7 @@ const SectionToday = (props: Props) => {
                         />
                         <Card
                             title={props.articles[1].title}
-                            author={props.articles[1].author}
+                            author={props.articles[1].author_full_name}
                             imageUrl={props.articles[1].image_url}
                             introductionText=""
                             slug={props.articles[1].slug}
@@ -79,7 +80,7 @@ const SectionToday = (props: Props) => {
                     <div className="col-span-12 md:col-span-8">
                         <Card
                             title={props.articles[2].title}
-                            author={props.articles[2].author}
+                            author={props.articles[2].author_full_name}
                             imageUrl={props.articles[2].image_url}
                             introductionText=""
                             slug={props.articles[2].slug}

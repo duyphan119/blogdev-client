@@ -1,8 +1,9 @@
 import {
-    RiFacebookBoxLine,
-    RiInstagramLine,
+    RiFacebookLine,
+    RiGithubLine,
+    RiLinkedinBoxLine,
+    RiLinkedinLine,
     RiPinterestLine,
-    RiTiktokLine,
     RiTwitterXLine,
     RiYoutubeLine,
 } from "react-icons/ri";
@@ -116,7 +117,7 @@ export const others = [
 export const socialMediaList = [
     {
         title: "Facebook",
-        icon: RiFacebookBoxLine,
+        icon: RiFacebookLine,
         href: "/",
     },
     {
@@ -135,13 +136,13 @@ export const socialMediaList = [
         href: "/",
     },
     {
-        title: "Instagram",
-        icon: RiInstagramLine,
+        title: "Github",
+        icon: RiGithubLine,
         href: "/",
     },
     {
-        title: "Tiktok",
-        icon: RiTiktokLine,
+        title: "Linkedin",
+        icon: RiLinkedinLine,
         href: "/",
     },
 ];

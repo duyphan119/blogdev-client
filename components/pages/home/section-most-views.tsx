@@ -32,18 +32,21 @@ const SectionMostViews = (props: Props) => {
                             />
                         </div>
                         <div className="col-span-12 md:col-span-6 flex gap-2 flex-col">
-                            <p className="category font-medium uppercase">
-                                {firstArticle.category_name}
-                            </p>
                             <Link
-                                href={firstArticle.slug}
+                                href={`/article?cat=${firstArticle.category_slug}`}
+                                className="category font-medium uppercase block underline-offset-4 hover:underline"
+                            >
+                                {firstArticle.category_name}
+                            </Link>
+                            <Link
+                                href={`/article/${firstArticle.slug}`}
                                 className="title text-3xl font-bold line-clamp-2 underline-offset-4 hover:underline"
                             >
                                 {firstArticle.title}
                             </Link>
                             <p className="author text-neutral-700">
                                 <RiUser3Line className="inline mr-1 -translate-y-0.5" />
-                                {firstArticle.author}
+                                {firstArticle.author_full_name}
                             </p>
                             <div className="introduction-text mt-auto font-thin">
                                 {firstArticle.introduction_text}
@@ -62,14 +65,14 @@ const SectionMostViews = (props: Props) => {
                                     <div className="flex justify-between w-full gap-4">
                                         <div className="space-y-2">
                                             <Link
-                                                href={article.slug}
+                                                href={`/article/${article.slug}`}
                                                 className="title text-lg font-bold line-clamp-2 underline-offset-4 hover:underline"
                                             >
                                                 {article.title}
                                             </Link>
                                             <p className="author text-neutral-700">
                                                 <RiUser3Line className="inline mr-1 -translate-y-0.5" />
-                                                {article.author}
+                                                {article.author_full_name}
                                             </p>
                                         </div>
                                         <div className="image relative w-20 h-20 flex-shrink-0">

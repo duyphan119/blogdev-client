@@ -15,7 +15,7 @@ const MainLayout = (props: Props) => {
     return (
         <AuthenticationWrapper>
             <Header />
-            <main>{props.children}</main>
+            <main className="py-12">{props.children}</main>
             <Footer />
             <ScrollToTop />
             <Toaster />

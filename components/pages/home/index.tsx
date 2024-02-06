@@ -15,7 +15,6 @@ type Props = {
 };
 
 const Home = (props: Props) => {
-    console.log(props.data);
     return (
         <div className="space-y-24">
             <div className="mx-auto md:max-w-7xl md:px-8 sm:px-0 px-8">
