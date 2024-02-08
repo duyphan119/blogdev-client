@@ -15,6 +15,7 @@ const HomePage = async (props: Props) => {
 
         return <Home data={response.data} />;
     } catch (error) {
+        console.log(error);
         return (
             <Home
                 data={{

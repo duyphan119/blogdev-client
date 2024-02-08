@@ -52,10 +52,9 @@ type Props = {
 };
 
 const SectionToday = (props: Props) => {
-    console.log(props.articles);
     return (
         <section>
-            <Box title="Today">
+            <Box title={`Today's picks`}>
                 <div className="grid grid-cols-12 gap-8">
                     <div className="col-span-12 md:col-span-4 space-y-8">
                         <Card

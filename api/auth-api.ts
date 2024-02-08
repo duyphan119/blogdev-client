@@ -2,11 +2,17 @@ import { LoginRequest } from "@/components/auth/login-form";
 import { ApiResponse } from "@/types";
 import { AuthenticationResponse, Profile } from "@/types/auth";
 import { getPrivateAxios, getPublicAxios } from ".";
+import { RegisterRequest } from "@/components/auth/register-form";
 
 const authApi = {
     login: async (body: LoginRequest) => {
         const response: ApiResponse<AuthenticationResponse> =
             await getPublicAxios().post("auth/login", body);
+        return response;
+    },
+    register: async (body: RegisterRequest) => {
+        const response: ApiResponse<AuthenticationResponse> =
+            await getPublicAxios().post("auth/register", body);
         return response;
     },
     getProfile: async () => {

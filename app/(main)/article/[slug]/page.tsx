@@ -1,7 +1,9 @@
 import articleApi from "@/api/article-api";
+import { webApi } from "@/api/web-api";
 import ArticleDetail from "@/components/pages/article-detail";
 import { formatTitle } from "@/lib/utils";
 import { Article } from "@/types/article";
+import { ArticleComment } from "@/types/article-comment";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -28,19 +30,16 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 };
 
 const ArticleDetailPage = async (props: Props) => {
-    let article: Article | null = null;
-
     try {
-        const response = await articleApi.getBySlug(props.params.slug);
+        const response = await webApi.getArticleDetailPageData(
+            props.params.slug
+        );
 
         if (response.message === "Success") {
-            article = response.data;
+            return <ArticleDetail data={response.data} />;
         }
     } catch (error) {}
-
-    if (!article) return notFound();
-
-    return <ArticleDetail article={article} />;
+    return notFound();
 };
 
 export default ArticleDetailPage;

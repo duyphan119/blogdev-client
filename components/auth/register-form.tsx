@@ -27,29 +27,37 @@ const formSchema = z.object({
     password: z.string().min(6, {
         message: "Password must be at least 6 characters",
     }),
+    first_name: z.string().min(1, {
+        message: "First name is required",
+    }),
+    last_name: z.string().min(1, {
+        message: "Last name is required",
+    }),
 });
 
-export type LoginRequest = z.infer<typeof formSchema>;
+export type RegisterRequest = z.infer<typeof formSchema>;
 
 type Props = {};
 
-const LoginForm = (props: Props) => {
+const RegisterForm = (props: Props) => {
     const { profile, isFetchedProfile } = useUserStore();
 
     if (isFetchedProfile && profile) redirect("/");
 
     const router = useRouter();
 
-    const form = useForm<LoginRequest>({
+    const form = useForm<RegisterRequest>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "duychomap123@gmail.com",
+            email: "duychomap4567@gmail.com",
             password: "123456",
+            first_name: "Duy",
+            last_name: "Phan",
         },
     });
 
-    const onSubmit = async (values: LoginRequest) => {
-        const response = await authApi.login(values);
+    const onSubmit = async (values: RegisterRequest) => {
+        const response = await authApi.register(values);
 
         if (response.message === "Success") {
             const prevPage = getCookie("prevPage")?.toString() ?? "/";
@@ -68,9 +76,43 @@ const LoginForm = (props: Props) => {
                 className="space-y-4 mx-auto md:w-1/2 w-full md:border md:border-border md:shadow p-8 my-24"
             >
                 <h1 className="text-center text-3xl uppercase font-bold">
-                    Login
+                    Register new account
                 </h1>
                 <div className="space-y-8">
+                    <div className="grid grid-cols-2 gap-8">
+                        <FormField
+                            control={form.control}
+                            name="first_name"
+                            render={({ field }) => (
+                                <FormItem className="md:col-span-1 col-span-2">
+                                    <FormLabel>First name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="First name"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="last_name"
+                            render={({ field }) => (
+                                <FormItem className="md:col-span-1 col-span-2">
+                                    <FormLabel>Last name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Last name"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                     <FormField
                         control={form.control}
                         name="email"
@@ -103,30 +145,21 @@ const LoginForm = (props: Props) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <Link
-                        href="/register"
+                        href="/login"
                         className={buttonVariants({
                             variant: "link",
                             className: "px-0 py-0",
                         })}
                     >
-                        Register now
-                    </Link>
-                    <Link
-                        href="/forgot-password"
-                        className={buttonVariants({
-                            variant: "link",
-                            className: "px-0 py-0",
-                        })}
-                    >
-                        Forgot password?
+                        Login now
                     </Link>
                 </div>
                 <Button type="submit" className="w-full">
-                    Login
+                    Register
                 </Button>
             </form>
         </Form>
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

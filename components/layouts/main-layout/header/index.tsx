@@ -1,16 +1,26 @@
 "use client";
 
-import { RiMenuFill, RiSearchLine, RiArrowDropDownFill } from "react-icons/ri";
+import {
+    RiMenuFill,
+    RiSearchLine,
+    RiArrowDropDownFill,
+    RiUser6Line,
+} from "react-icons/ri";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Logo from "./logo";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { navItems } from "./data";
 import { Fragment } from "react";
+import { setCookie } from "cookies-next";
+import { usePathname } from "next/navigation";
+import useUserStore from "@/zustand/use-user-store";
 
 type Props = {};
 
 const Header = (props: Props) => {
+    const pathname = usePathname();
+    const { profile, isFetchedProfile } = useUserStore();
     return (
         <header className="h-28 sticky top-0 bg-white z-10 shadow">
             <div className="grid grid-cols-12 gap-1 h-16">
@@ -25,7 +35,30 @@ const Header = (props: Props) => {
                     </Link>
                 </div>
                 <div className="md:col-span-3 flex justify-end h-full items-center">
-                    <Button variant="link">Sign In</Button>
+                    {isFetchedProfile &&
+                        (profile ? (
+                            <Link
+                                href="/profile"
+                                className={buttonVariants({
+                                    variant: "ghost",
+                                })}
+                            >
+                                <RiUser6Line className="text-xl" />
+                            </Link>
+                        ) : (
+                            <Link
+                                href="/login"
+                                onClick={() => {
+                                    setCookie("prevPage", pathname);
+                                }}
+                                className={buttonVariants({
+                                    variant: "link",
+                                })}
+                            >
+                                Sign In
+                            </Link>
+                        ))}
+
                     <Button variant="ghost">
                         <RiSearchLine className="text-xl" />
                     </Button>
