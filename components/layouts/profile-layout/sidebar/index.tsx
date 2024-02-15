@@ -10,6 +10,9 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import useUserStore from "@/zustand/use-user-store";
 import authApi from "@/api/auth-api";
 import { deleteCookie } from "cookies-next";
+import { RiUpload2Fill } from "react-icons/ri";
+import { Button } from "@/components/ui/button";
+import AvatarProfile from "./avatar-profile";
 
 type Props = {};
 
@@ -21,9 +24,7 @@ const Sidebar = (props: Props) => {
     return (
         <div className="space-y-4">
             <div className="profile flex flex-col items-center gap-2">
-                <Avatar className="h-24 w-24 border border-border">
-                    <AvatarImage src={profile?.image_url} />
-                </Avatar>
+                <AvatarProfile />
                 <div className="">{profile?.full_name}</div>
             </div>
             <Separator />

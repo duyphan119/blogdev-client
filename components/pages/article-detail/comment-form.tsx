@@ -3,9 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import articleCommentApi from "@/api/article-comment-api";
-import { Button, buttonVariants } from "@/components/ui/button";
+import ButtonLoading from "@/components/common/button/button-loading";
+import { buttonVariants } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -15,16 +15,16 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { ArticleComment } from "@/types/article-comment";
 import useUserStore from "@/zustand/use-user-store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArticleComment } from "@/types/article-comment";
 import { useEffect } from "react";
 
 type Props = {
     articleId: number;
-    onCreate: (articleComment: ArticleComment) => void;
 };
 
 const formSchema = z.object({
@@ -36,8 +36,19 @@ const formSchema = z.object({
 export type ArticleCommentRequest = z.infer<typeof formSchema>;
 
 const CommentForm = (props: Props) => {
+    const queryClient = useQueryClient();
+
     const pathname = usePathname();
+
     const { profile, isFetchedProfile } = useUserStore();
+
+    const createArticleCommentMutation = useMutation({
+        mutationFn: (
+            body: ArticleCommentRequest & { article: { id: number } }
+        ) => articleCommentApi.create(body),
+        onSettled: () =>
+            queryClient.invalidateQueries({ queryKey: ["article-comments"] }),
+    });
 
     const form = useForm<ArticleCommentRequest>({
         resolver: zodResolver(formSchema),
@@ -47,19 +58,12 @@ const CommentForm = (props: Props) => {
     });
 
     const onSubmit = async (values: ArticleCommentRequest) => {
-        try {
-            const response = await articleCommentApi.create({
-                ...values,
-                article: {
-                    id: props.articleId,
-                },
-            });
-
-            if (response.message === "Success") {
-                props.onCreate(response.data);
-                form.setValue("content", "");
-            }
-        } catch (error) {}
+        createArticleCommentMutation.mutate({
+            ...values,
+            article: {
+                id: props.articleId,
+            },
+        });
     };
 
     return (
@@ -83,6 +87,9 @@ const CommentForm = (props: Props) => {
                                                 <Textarea
                                                     placeholder="Content"
                                                     rows={4}
+                                                    disabled={
+                                                        createArticleCommentMutation.isPending
+                                                    }
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -90,9 +97,20 @@ const CommentForm = (props: Props) => {
                                         </FormItem>
                                     )}
                                 />
-                                <Button type="submit" className="col-span-12">
+                                <ButtonLoading
+                                    type="submit"
+                                    disabled={
+                                        createArticleCommentMutation.isPending ||
+                                        !form.formState.isDirty ||
+                                        !form.formState.isValid
+                                    }
+                                    isLoading={
+                                        createArticleCommentMutation.isPending
+                                    }
+                                    className="col-span-12"
+                                >
                                     Post
-                                </Button>
+                                </ButtonLoading>
                             </form>
                         </Form>
                     </div>

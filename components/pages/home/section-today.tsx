@@ -25,7 +25,7 @@ const Card = (props: ArticleCardProps) => {
                     src={props.imageUrl}
                     fill
                     priority
-                    className="rounded-sm"
+                    className="rounded-sm object-cover"
                     alt="thumbnail"
                     sizes="(max-width: 1200px) 40vw, 100vw"
                 />

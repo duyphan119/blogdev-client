@@ -21,10 +21,12 @@ const Logo = (props: Props) => {
                     key={letter}
                     className={cn(
                         index % 2 === 0
-                            ? props.mode === "light"
+                            ? props.mode === "dark"
                                 ? "bg-black text-white"
                                 : "bg-white text-black"
-                            : "",
+                            : props.mode === "dark"
+                            ? "text-black"
+                            : "text-white",
                         "text-3xl px-2",
                         props.letterClassName
                     )}

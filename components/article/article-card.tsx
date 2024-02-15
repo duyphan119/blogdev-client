@@ -22,7 +22,7 @@ const ArticleCard = (props: Props) => {
                     src={props.imageUrl}
                     fill
                     priority
-                    className="rounded-sm"
+                    className="rounded-sm object-cover"
                     alt="thumbnail"
                     sizes="(max-width: 1200px) 40vw, 100vw"
                 />
@@ -36,7 +36,7 @@ const ArticleCard = (props: Props) => {
             >
                 {props.title}
             </Link>
-            <p className="author text-neutral-700">{props.author.full_name}</p>
+            <p className="author text-neutral-700">{props.author}</p>
         </div>
     );
 };

@@ -1,7 +1,9 @@
 "use client";
 
 import authApi from "@/api/auth-api";
+import useProfile from "@/hooks/query/auth/use-profile";
 import useUserStore from "@/zustand/use-user-store";
+import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
 
 type Props = {
@@ -11,24 +13,30 @@ type Props = {
 const AuthenticationWrapper = (props: Props) => {
     const { setProfile } = useUserStore();
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            let profileIsSetted = false;
-            try {
-                const response = await authApi.getProfile();
-                if (response.message === "Success") {
-                    profileIsSetted = true;
-                    setProfile(response.data);
-                }
-            } catch (error) {}
+    const {
+        status,
+        data: response,
+        isFetching,
+        isFetched,
+    } = useQuery({
+        queryKey: ["profile"],
+        queryFn: () => authApi.getProfile(),
+        gcTime: 1000 * 60 * 60 * 24,
+        refetchOnMount: false,
+        enabled: true,
+    });
 
-            if (!profileIsSetted) {
+    useEffect(() => {
+        if (isFetched) {
+            if (status === "success" && response.data) {
+                setProfile(response.data);
+            } else {
                 setProfile(null);
             }
-        };
+        }
+    }, [isFetched]);
 
-        fetchProfile();
-    }, []);
+    if (isFetching) return <></>;
 
     return props.children;
 };

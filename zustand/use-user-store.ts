@@ -1,18 +1,17 @@
-import { Profile } from "@/types/auth";
-import { deleteCookie } from "cookies-next";
+import { Author } from "@/types/user";
 import { create } from "zustand";
 
-interface State {
-    profile: Profile | null;
+type State = {
+    profile: Author | null;
     isFetchedProfile: boolean;
-    setProfile: (profile: Profile | null) => void;
+    setProfile: (profile: Author | null) => void;
     logout: () => void;
-}
+};
 
 const useUserStore = create<State>()((set) => ({
     profile: null,
     isFetchedProfile: false,
-    setProfile: (profile: Profile | null) =>
+    setProfile: (profile: Author | null) =>
         set((state) => ({
             profile,
             isFetchedProfile: true,

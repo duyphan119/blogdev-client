@@ -1,5 +1,6 @@
 "use client";
 
+import articleReplyCommentApi from "@/api/article-reply-comment-api";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -17,6 +18,7 @@ import * as z from "zod";
 type Props = {
     content: string;
     onEdit: (newContent: string) => void;
+    onClose: () => void;
 };
 
 const formSchema = z.object({
@@ -31,7 +33,7 @@ const EditForm = (props: Props) => {
     const form = useForm<ArticleCommentRequest>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            content: "",
+            content: props.content,
         },
     });
 
@@ -62,9 +64,19 @@ const EditForm = (props: Props) => {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="col-span-12">
-                    Post
-                </Button>
+                <div className="w-full flex gap-4 mt-4">
+                    <Button
+                        type="button"
+                        onClick={props.onClose}
+                        variant="secondary"
+                        className="flex-1"
+                    >
+                        Cancel
+                    </Button>
+                    <Button type="submit" className="flex-1">
+                        Save
+                    </Button>
+                </div>
             </form>
         </Form>
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import articleReplyCommentApi from "@/api/article-reply-comment-api";
+import { ArticleReplyCommentBody } from "@/api/article-reply-comment-api";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -16,8 +16,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 type Props = {
-    articleCommentId: number;
-    onCreate: (articleReplyComment: ArticleReplyComment) => void;
+    articleReplyComment: ArticleReplyComment;
+    onCreate: (body: ArticleReplyCommentBody) => void;
 };
 
 const formSchema = z.object({
@@ -35,19 +35,14 @@ const ReplyForm = (props: Props) => {
         },
     });
 
-    const onSubmit = async (values: ArticleReplyCommentRequest) => {
-        try {
-            const response = await articleReplyCommentApi.create({
-                ...values,
-                article_comment: {
-                    id: props.articleCommentId,
-                },
-            });
-
-            if (response.message === "Success") {
-                props.onCreate(response.data);
-            }
-        } catch (error) {}
+    const onSubmit = (values: ArticleReplyCommentRequest) => {
+        props.onCreate({
+            ref_user_id: props.articleReplyComment.user.id,
+            article_comment: {
+                id: props.articleReplyComment.article_comment.id,
+            },
+            ...values,
+        });
     };
 
     return (

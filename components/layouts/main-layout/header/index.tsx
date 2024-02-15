@@ -15,6 +15,7 @@ import { Fragment } from "react";
 import { setCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import useUserStore from "@/zustand/use-user-store";
+import { cn } from "@/lib/utils";
 
 type Props = {};
 
@@ -31,7 +32,7 @@ const Header = (props: Props) => {
                 </div>
                 <div className="md:col-span-6 h-full text-center">
                     <Link href="/" className="block h-full">
-                        <Logo className="h-full" />
+                        <Logo className="h-full" mode="dark" />
                     </Link>
                 </div>
                 <div className="md:col-span-3 flex justify-end h-full items-center">
@@ -71,6 +72,7 @@ const Header = (props: Props) => {
                         { name: "Java", slug: "java" },
                         { name: "Python", slug: "python" },
                     ]).map((navItem, index) => {
+                        const isActive = navItem.href === pathname;
                         return (
                             <Fragment key={index}>
                                 {index > 0 && (
@@ -84,6 +86,9 @@ const Header = (props: Props) => {
                                             href={navItem.href}
                                             className={buttonVariants({
                                                 variant: "link",
+                                                className: cn(
+                                                    isActive && "underline"
+                                                ),
                                             })}
                                             title={
                                                 navItem.title ||

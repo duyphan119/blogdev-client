@@ -26,7 +26,7 @@ const SectionTrending = (props: Props) => {
                                         src={article.image_url}
                                         fill
                                         priority
-                                        className="rounded-sm"
+                                        className="rounded-sm object-cover"
                                         alt="thumbnail"
                                         sizes="(max-width: 1200px) 40vw, 100vw"
                                     />

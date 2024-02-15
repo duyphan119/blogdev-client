@@ -11,12 +11,12 @@ export type ArticleReplyComment = {
         full_name: string;
         image_url: string;
     };
-    refUser: {
+    ref_user: {
         id: number;
         email: string;
         full_name: string;
         image_url: string;
-    };
+    } | null;
 };
 
 export type ArticleReplyCommentParams = {

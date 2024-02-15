@@ -133,7 +133,11 @@ const RegisterForm = (props: Props) => {
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Password" {...field} />
+                                    <Input
+                                        type="password"
+                                        placeholder="Password"
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormDescription>
                                     Password must be at least 6 characters
@@ -148,7 +152,7 @@ const RegisterForm = (props: Props) => {
                         href="/login"
                         className={buttonVariants({
                             variant: "link",
-                            className: "px-0 py-0",
+                            className: "!px-0 !py-0",
                         })}
                     >
                         Login now

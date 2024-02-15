@@ -10,7 +10,7 @@ export type Author = {
     linkedin_url: string;
     pinterest_url: string;
     youtube_url: string;
+    career: string;
     email: string;
     image_url: string;
-    career: string;
 };

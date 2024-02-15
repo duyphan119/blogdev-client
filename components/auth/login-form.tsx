@@ -91,7 +91,11 @@ const LoginForm = (props: Props) => {
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Password" {...field} />
+                                    <Input
+                                        type="password"
+                                        placeholder="Password"
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormDescription>
                                     Password must be at least 6 characters
@@ -106,7 +110,7 @@ const LoginForm = (props: Props) => {
                         href="/register"
                         className={buttonVariants({
                             variant: "link",
-                            className: "px-0 py-0",
+                            className: "!px-0 !py-0",
                         })}
                     >
                         Register now
@@ -115,7 +119,7 @@ const LoginForm = (props: Props) => {
                         href="/forgot-password"
                         className={buttonVariants({
                             variant: "link",
-                            className: "px-0 py-0",
+                            className: "!px-0 !py-0",
                         })}
                     >
                         Forgot password?

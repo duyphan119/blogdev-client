@@ -1,24 +1,27 @@
 "use client";
 
 import articleCommentApi from "@/api/article-comment-api";
+import ButtonLoading from "@/components/common/button/button-loading";
 import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { ArticleComment } from "@/types/article-comment";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 type Props = {
     articleComment: ArticleComment;
     onEdit: (newArticleComment: ArticleComment) => void;
+    onClose: () => void;
 };
 
 const formSchema = z.object({
@@ -30,6 +33,10 @@ const formSchema = z.object({
 type ArticleCommentRequest = z.infer<typeof formSchema>;
 
 const EditForm = (props: Props) => {
+    const updateArticleCommentMutation = useMutation({
+        mutationFn: (body: ArticleComment) => articleCommentApi.update(body),
+    });
+
     const form = useForm<ArticleCommentRequest>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -38,33 +45,36 @@ const EditForm = (props: Props) => {
     });
 
     const onSubmit = async (values: ArticleCommentRequest) => {
-        try {
-            const response = await articleCommentApi.update({
-                ...props.articleComment,
-                ...values,
-            });
-            if (response.message === "Success") {
-                props.onEdit(response.data);
-            }
-        } catch (error) {}
+        updateArticleCommentMutation.mutate({
+            ...props.articleComment,
+            ...values,
+        });
     };
+
+    useEffect(() => {
+        if (
+            updateArticleCommentMutation.isSuccess &&
+            updateArticleCommentMutation.data.message === "Success"
+        ) {
+            props.onEdit(updateArticleCommentMutation.data.data);
+        }
+    }, [updateArticleCommentMutation.isSuccess]);
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="grid grid-cols-12 gap-8 p-8 border"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <FormField
                     control={form.control}
                     name="content"
                     render={({ field }) => (
-                        <FormItem className="col-span-12">
-                            <FormLabel>Content</FormLabel>
+                        <FormItem className="w-full">
                             <FormControl>
                                 <Textarea
                                     placeholder="Content"
                                     rows={4}
+                                    disabled={
+                                        updateArticleCommentMutation.isPending
+                                    }
                                     {...field}
                                 />
                             </FormControl>
@@ -72,9 +82,28 @@ const EditForm = (props: Props) => {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="col-span-12">
-                    Post
-                </Button>
+                <div className="w-full flex gap-4 mt-4">
+                    <Button
+                        type="button"
+                        onClick={props.onClose}
+                        variant="secondary"
+                        className="flex-1"
+                    >
+                        Cancel
+                    </Button>
+                    <ButtonLoading
+                        disabled={
+                            updateArticleCommentMutation.isPending ||
+                            !form.formState.isDirty ||
+                            !form.formState.isValid
+                        }
+                        isLoading={updateArticleCommentMutation.isPending}
+                        type="submit"
+                        className="flex-1"
+                    >
+                        Save
+                    </ButtonLoading>
+                </div>
             </form>
         </Form>
     );

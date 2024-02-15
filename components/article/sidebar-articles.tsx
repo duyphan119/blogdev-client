@@ -2,7 +2,7 @@
 
 import { ArticleCard } from "@/types/article";
 import React from "react";
-import Box from "../home/box";
+import Box from "../pages/home/box";
 import Image from "next/image";
 import Link from "next/link";
 

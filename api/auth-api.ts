@@ -1,8 +1,9 @@
 import { LoginRequest } from "@/components/auth/login-form";
-import { ApiResponse } from "@/types";
-import { AuthenticationResponse, Profile } from "@/types/auth";
-import { getPrivateAxios, getPublicAxios } from ".";
 import { RegisterRequest } from "@/components/auth/register-form";
+import { ApiResponse } from "@/types";
+import { AuthenticationResponse } from "@/types/auth";
+import { Author } from "@/types/user";
+import { getPrivateAxios, getPublicAxios } from ".";
 
 const authApi = {
     login: async (body: LoginRequest) => {
@@ -16,7 +17,7 @@ const authApi = {
         return response;
     },
     getProfile: async () => {
-        const response: ApiResponse<Profile> = await getPrivateAxios().get(
+        const response: ApiResponse<Author> = await getPrivateAxios().get(
             "auth/profile"
         );
         return response;
@@ -29,6 +30,13 @@ const authApi = {
     logout: async (): Promise<boolean> => {
         await getPrivateAxios().post("auth/logout");
         return true;
+    },
+    updateProfile: async (body: Author) => {
+        const response: ApiResponse<Author> = await getPrivateAxios().patch(
+            "/auth/profile",
+            body
+        );
+        return response;
     },
 };
 
