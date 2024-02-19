@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import useUserStore from "@/zustand/use-user-store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
@@ -38,6 +39,21 @@ const LoginForm = (props: Props) => {
 
     if (isFetchedProfile && profile) redirect("/");
 
+    const queryClient = useQueryClient();
+
+    const loginMutation = useMutation({
+        mutationFn: (body: LoginRequest) => authApi.login(body),
+        onSuccess: (response) => {
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
+            const prevPage = getCookie("prevPage")?.toString() ?? "/";
+            deleteCookie("prevPage");
+            setCookie("accessToken", response.data.access_token, {
+                maxAge: response.data.access_token_expired / 1000,
+            });
+            router.push(prevPage);
+        },
+    });
+
     const router = useRouter();
 
     const form = useForm<LoginRequest>({
@@ -49,16 +65,7 @@ const LoginForm = (props: Props) => {
     });
 
     const onSubmit = async (values: LoginRequest) => {
-        const response = await authApi.login(values);
-
-        if (response.message === "Success") {
-            const prevPage = getCookie("prevPage")?.toString() ?? "/";
-            deleteCookie("prevPage");
-            setCookie("accessToken", response.data.access_token, {
-                maxAge: response.data.access_token_expired / 1000,
-            });
-            router.push(prevPage);
-        }
+        loginMutation.mutate(values);
     };
 
     return (

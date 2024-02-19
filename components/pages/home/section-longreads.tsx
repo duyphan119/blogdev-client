@@ -1,12 +1,10 @@
 "use client";
 
-import React, { Fragment } from "react";
-import Box from "./box";
-import Link from "next/link";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import { RiUser3Line } from "react-icons/ri";
 import { ArticleCard } from "@/types/article";
+import { Fragment } from "react";
+import ArticleCardInfo from "../my-articles/article-card-info";
+import Box from "./box";
 
 type Props = {
     articles: ArticleCard[];
@@ -19,76 +17,41 @@ const SectionLongreads = (props: Props) => {
         <section>
             <Box title="Longreads">
                 <div className="space-y-8">
-                    <div className="grid grid-cols-12 gap-8">
-                        <div className="image relative col-span-12 md:col-span-6 pb-[60%]">
-                            <Image
-                                src={firstArticle.image_url}
-                                fill
-                                priority
-                                className="rounded-sm object-cover"
-                                alt="thumbnail"
-                                sizes="(max-width: 1200px) 40vw, 100vw"
-                            />
-                        </div>
-                        <div className="col-span-12 md:col-span-6 flex gap-2 flex-col">
-                            <Link
-                                href={`/article?cat=${firstArticle.category_slug}`}
-                                className="category font-medium uppercase block underline-offset-4 hover:underline"
-                            >
-                                {firstArticle.category_name}
-                            </Link>
-                            <Link
-                                href={`/article/${firstArticle.slug}`}
-                                className="title text-3xl font-bold line-clamp-2 underline-offset-4 hover:underline"
-                            >
-                                {firstArticle.title}
-                            </Link>
-                            <p className="author text-neutral-700">
-                                <RiUser3Line className="inline mr-1 -translate-y-0.5" />
-                                {firstArticle.author_full_name}
-                            </p>
-                            <div className="introduction-text mt-auto font-thin">
-                                {firstArticle.introduction_text}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex gap-4">
+                    <ArticleCardInfo
+                        categoryName={firstArticle.category_name}
+                        categorySlug={firstArticle.category_slug}
+                        title={firstArticle.title}
+                        imageUrl={firstArticle.image_url}
+                        authorFullName={firstArticle.author_full_name}
+                        authorId={firstArticle.author_id}
+                        slug={firstArticle.slug}
+                        introductionText={firstArticle.introduction_text}
+                    />
+                    <ul className="flex gap-4">
                         {articles.map((article, index) => {
                             return (
                                 <Fragment key={article.id}>
                                     {index > 0 && (
-                                        <div className="">
+                                        <li className="">
                                             <Separator orientation="vertical" />
-                                        </div>
+                                        </li>
                                     )}
-                                    <div className="flex justify-between w-full gap-4">
-                                        <div className="space-y-2">
-                                            <Link
-                                                href={`/article/${article.slug}`}
-                                                className="title text-lg font-bold line-clamp-2 underline-offset-4 hover:underline"
-                                            >
-                                                {article.title}
-                                            </Link>
-                                            <p className="author text-neutral-700">
-                                                <RiUser3Line className="inline mr-1 -translate-y-0.5" />
-                                                {article.author_full_name}
-                                            </p>
-                                        </div>
-                                        <div className="image relative w-20 h-20 flex-shrink-0">
-                                            <Image
-                                                src={article.image_url}
-                                                fill
-                                                priority
-                                                className="rounded-sm object-cover"
-                                                alt="thumbnail"
-                                                sizes="(max-width: 1200px) 40vw, 100vw"
-                                            />
-                                        </div>
-                                    </div>
+                                    <li>
+                                        <ArticleCardInfo
+                                            title={article.title}
+                                            imageUrl={article.image_url}
+                                            authorFullName={
+                                                article.author_full_name
+                                            }
+                                            authorId={article.author_id}
+                                            slug={article.slug}
+                                            imageAlign="right"
+                                        />
+                                    </li>
                                 </Fragment>
                             );
                         })}
-                    </div>
+                    </ul>
                 </div>
             </Box>
         </section>

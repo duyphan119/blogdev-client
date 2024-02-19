@@ -177,7 +177,7 @@ const ProfileForm = (props: Props) => {
                                         disabled={
                                             updateProfileMutation.isPending
                                         }
-                                        rows={1}
+                                        rows={4}
                                         placeholder="Introduction"
                                         {...field}
                                     />

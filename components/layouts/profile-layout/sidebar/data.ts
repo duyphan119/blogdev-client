@@ -1,4 +1,4 @@
-import { RiLogoutBoxRLine, RiUser2Line } from "react-icons/ri";
+import { RiLogoutBoxRLine, RiNewspaperLine, RiUser2Line } from "react-icons/ri";
 
 export const sidebarItems = [
     {
@@ -7,6 +7,13 @@ export const sidebarItems = [
         href: "/profile",
         isSignOutBtn: false,
         icon: RiUser2Line,
+    },
+    {
+        title: "My Articles",
+        displayText: "My Articles",
+        href: "/profile/article",
+        isSignOutBtn: false,
+        icon: RiNewspaperLine,
     },
     {
         title: "Log out",

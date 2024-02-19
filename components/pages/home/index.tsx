@@ -20,12 +20,12 @@ const Home = (props: Props) => {
             <div className="mx-auto md:max-w-7xl md:px-8 sm:px-0 px-8">
                 <div className="grid grid-cols-12 gap-24">
                     <div className="col-span-12 grid grid-cols-12 gap-8">
-                        <div className="col-span-12 md:col-span-9">
+                        <div className="col-span-12 lg:col-span-8 xl:col-span-9">
                             <SectionToday
                                 articles={props.data.today_articles}
                             />
                         </div>
-                        <div className="col-span-12 md:col-span-3">
+                        <div className="col-span-12 lg:col-span-4 xl:col-span-3">
                             <SectionMostRecent
                                 articles={props.data.most_recent_articles}
                             />

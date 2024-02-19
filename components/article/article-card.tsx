@@ -27,7 +27,7 @@ const ArticleCard = (props: Props) => {
                     sizes="(max-width: 1200px) 40vw, 100vw"
                 />
             </div>
-            <p className="category font-medium uppercase">
+            <p className="category font-medium uppercase block">
                 {props.categoryName}
             </p>
             <Link
@@ -36,7 +36,7 @@ const ArticleCard = (props: Props) => {
             >
                 {props.title}
             </Link>
-            <p className="author text-neutral-700">{props.author}</p>
+            <p className="author block text-neutral-700">{props.author}</p>
         </div>
     );
 };

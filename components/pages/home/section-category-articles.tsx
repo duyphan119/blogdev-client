@@ -30,7 +30,10 @@ const SectionCategoryArticles = (props: Props) => {
                                             {category.name}
                                         </Link>
                                     </div>
-                                    <div className="image relative col-span-12 md:col-span-6 pb-[60%]">
+                                    <Link
+                                        href={`/article/${category.articles[0].slug}`}
+                                        className="image relative col-span-12 md:col-span-6 pb-[60%] block"
+                                    >
                                         <Image
                                             src={category.articles[0].image_url}
                                             fill
@@ -39,7 +42,7 @@ const SectionCategoryArticles = (props: Props) => {
                                             alt="thumbnail"
                                             sizes="(max-width: 1200px) 40vw, 100vw"
                                         />
-                                    </div>
+                                    </Link>
                                     <ul className="space-y-4 mt-4">
                                         {category.articles.map(
                                             (article, index) => {

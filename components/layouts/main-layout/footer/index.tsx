@@ -3,18 +3,20 @@
 import React from "react";
 import Logo from "../header/logo";
 import { Separator } from "@/components/ui/separator";
-import { categories, moreFromBLDEV, others, socialMediaList } from "./data";
+import { moreFromBLDEV, others, socialMediaList } from "./data";
 import Link from "next/link";
+import useMainLayoutStore from "@/zustand/use-main-layout-store";
 
 type Props = {};
 
 const Footer = (props: Props) => {
+    const { categoryParentList } = useMainLayoutStore();
     return (
         <footer className="bg-black text-white space-y-8 py-8">
             <div className="md:px-8 sm:px-0 px-8 space-y-8">
                 <div className="">
                     <Logo
-                        mode="dark"
+                        mode="light"
                         letterClassName="text-lg px-1"
                         className="gap-1"
                     />
@@ -52,7 +54,7 @@ const Footer = (props: Props) => {
                 <div className="col-span-12 md:col-span-6">
                     <div className="uppercase font-bold">Categories</div>
                     <ul className="grid grid-cols-2">
-                        {categories.map((item) => {
+                        {categoryParentList.map((item) => {
                             return (
                                 <li key={item.name}>
                                     <Link

@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import useUserStore from "@/zustand/use-user-store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
@@ -56,17 +57,23 @@ const RegisterForm = (props: Props) => {
         },
     });
 
-    const onSubmit = async (values: RegisterRequest) => {
-        const response = await authApi.register(values);
+    const queryClient = useQueryClient();
 
-        if (response.message === "Success") {
+    const registerMutation = useMutation({
+        mutationFn: (body: RegisterRequest) => authApi.login(body),
+        onSuccess: (response) => {
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
             const prevPage = getCookie("prevPage")?.toString() ?? "/";
             deleteCookie("prevPage");
             setCookie("accessToken", response.data.access_token, {
                 maxAge: response.data.access_token_expired / 1000,
             });
             router.push(prevPage);
-        }
+        },
+    });
+
+    const onSubmit = async (values: RegisterRequest) => {
+        registerMutation.mutate(values);
     };
 
     return (

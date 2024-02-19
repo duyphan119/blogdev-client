@@ -13,6 +13,7 @@ import { deleteCookie } from "cookies-next";
 import { RiUpload2Fill } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import AvatarProfile from "./avatar-profile";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {};
 
@@ -20,6 +21,17 @@ const Sidebar = (props: Props) => {
     const { profile } = useUserStore();
     const pathname = usePathname();
     const router = useRouter();
+
+    const queryClient = useQueryClient();
+
+    const logoutMutation = useMutation({
+        mutationFn: () => authApi.logout(),
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
+            deleteCookie("accessToken");
+            router.push("/");
+        },
+    });
 
     return (
         <div className="space-y-4">
@@ -52,17 +64,7 @@ const Sidebar = (props: Props) => {
                                     </Link>
                                 ) : (
                                     <button
-                                        onClick={async (e) => {
-                                            e.preventDefault();
-                                            try {
-                                                const isLogged =
-                                                    await authApi.logout();
-                                                if (isLogged) {
-                                                    deleteCookie("accessToken");
-                                                    router.push("/");
-                                                }
-                                            } catch (error) {}
-                                        }}
+                                        onClick={() => logoutMutation.mutate()}
                                         className={className}
                                     >
                                         <Icon className="text-xl" />

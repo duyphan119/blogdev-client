@@ -1,23 +1,21 @@
 "use client";
 
-import Link from "next/link";
-import { PiArrowLineDownRightBold } from "react-icons/pi";
+import subscriberApi from "@/api/subscriber-api";
 import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import subscriberApi from "@/api/subscriber-api";
 import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { PiArrowLineDownRightBold } from "react-icons/pi";
+import { z } from "zod";
 
 const formSchema = z.object({
     email: z.string().email({

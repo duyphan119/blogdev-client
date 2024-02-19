@@ -1,6 +1,7 @@
 "use client";
 
 import ArticleListWrapper from "@/components/article/article-list-wrapper";
+import MarkdownPreview from "@/components/markdown/markdown-preview";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -19,6 +20,7 @@ import {
 import CommentForm from "./comment-form";
 import Comments from "./comments";
 import RecommendArticleList from "./recommend-article-list";
+import SocialMediaList from "@/components/user/social-media-list";
 
 type Props = {
     article: Article;
@@ -76,12 +78,13 @@ const ArticleDetail = (props: Props) => {
                                 sizes="(max-width: 1200px) 40vw, 100vw"
                             />
                         </div>
-                        <div
+                        {/* <div
                             className="article-content"
                             dangerouslySetInnerHTML={{
                                 __html: props.article.content,
                             }}
-                        ></div>
+                        ></div> */}
+                        <MarkdownPreview content={props.article.content} />
                         <Separator />
                         <div className="flex gap-8 ">
                             <Avatar className="image rounded-lg relative w-20 h-20 flex-shrink-0">
@@ -104,87 +107,9 @@ const ArticleDetail = (props: Props) => {
                                     <div className="text-neutral-500 uppercase">
                                         {props.article.author.career}
                                     </div>
-                                    <ul className="flex gap-4">
-                                        {!props.article.author.facebook_url && (
-                                            <li className="">
-                                                <Link
-                                                    href={
-                                                        props.article.author
-                                                            .facebook_url
-                                                    }
-                                                    title="Facebook"
-                                                >
-                                                    <RiFacebookLine className="text-2xl -translate-y-0.5" />
-                                                </Link>
-                                            </li>
-                                        )}
-                                        {!props.article.author.twitter_url && (
-                                            <li className="">
-                                                <Link
-                                                    href={
-                                                        props.article.author
-                                                            .twitter_url
-                                                    }
-                                                    title="Twitter"
-                                                >
-                                                    <RiTwitterXLine className="text-2xl -translate-y-0.5" />
-                                                </Link>
-                                            </li>
-                                        )}
-                                        {!props.article.author
-                                            .pinterest_url && (
-                                            <li className="">
-                                                <Link
-                                                    href={
-                                                        props.article.author
-                                                            .pinterest_url
-                                                    }
-                                                    title="Pinterest"
-                                                >
-                                                    <RiPinterestLine className="text-2xl -translate-y-0.5" />
-                                                </Link>
-                                            </li>
-                                        )}
-                                        {!props.article.author.youtube_url && (
-                                            <li className="">
-                                                <Link
-                                                    href={
-                                                        props.article.author
-                                                            .youtube_url
-                                                    }
-                                                    title="Youtube"
-                                                >
-                                                    <RiYoutubeLine className="text-2xl -translate-y-0.5" />
-                                                </Link>
-                                            </li>
-                                        )}
-                                        {!props.article.author.github_url && (
-                                            <li className="">
-                                                <Link
-                                                    href={
-                                                        props.article.author
-                                                            .github_url
-                                                    }
-                                                    title="Github"
-                                                >
-                                                    <RiGithubLine className="text-2xl -translate-y-0.5" />
-                                                </Link>
-                                            </li>
-                                        )}
-                                        {!props.article.author.linkedin_url && (
-                                            <li className="">
-                                                <Link
-                                                    href={
-                                                        props.article.author
-                                                            .linkedin_url
-                                                    }
-                                                    title="Linkedin"
-                                                >
-                                                    <RiLinkedinLine className="text-2xl -translate-y-0.5" />
-                                                </Link>
-                                            </li>
-                                        )}
-                                    </ul>
+                                    <SocialMediaList
+                                        author={props.article.author}
+                                    />
                                 </div>
                             </div>
                         </div>

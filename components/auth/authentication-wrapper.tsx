@@ -1,7 +1,6 @@
 "use client";
 
 import authApi from "@/api/auth-api";
-import useProfile from "@/hooks/query/auth/use-profile";
 import useUserStore from "@/zustand/use-user-store";
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
@@ -18,23 +17,26 @@ const AuthenticationWrapper = (props: Props) => {
         data: response,
         isFetching,
         isFetched,
+        isSuccess,
     } = useQuery({
         queryKey: ["profile"],
         queryFn: () => authApi.getProfile(),
         gcTime: 1000 * 60 * 60 * 24,
         refetchOnMount: false,
+        refetchInterval: false,
+        refetchIntervalInBackground: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         enabled: true,
     });
 
     useEffect(() => {
-        if (isFetched) {
-            if (status === "success" && response.data) {
-                setProfile(response.data);
-            } else {
-                setProfile(null);
-            }
+        if (isSuccess) {
+            setProfile(response.data);
+        } else if (isFetched) {
+            setProfile(null);
         }
-    }, [isFetched]);
+    }, [isSuccess]);
 
     if (isFetching) return <></>;
 

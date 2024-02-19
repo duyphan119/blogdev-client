@@ -29,7 +29,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={roboto.className}>
+            <body
+                className={roboto.className}
+                style={{ overflowX: "hidden !important" }}
+            >
                 <NextTopLoader />
                 <QueryWrapper>{children}</QueryWrapper>
             </body>

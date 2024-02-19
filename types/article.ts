@@ -1,3 +1,4 @@
+import { PaginatedData } from ".";
 import { Category } from "./category";
 import { Author } from "./user";
 
@@ -12,6 +13,7 @@ export type ArticleCard = {
     category_name: string;
     category_slug: string;
     introduction_text: string;
+    is_public: boolean;
 };
 
 export type Article = {
@@ -26,4 +28,17 @@ export type Article = {
     author: Author;
     category: Category;
     introduction_text: string;
+    is_public: boolean;
+};
+
+export type ArticleParams = {
+    limit?: number;
+    p?: number;
+    sort_by?: string;
+    sort_type?: string;
+    q?: string;
+};
+
+export type AuthorArticles = PaginatedData<ArticleCard> & {
+    author: Author;
 };
