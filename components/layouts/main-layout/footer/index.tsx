@@ -13,15 +13,15 @@ const Footer = (props: Props) => {
     const { categoryParentList } = useMainLayoutStore();
     return (
         <footer className="bg-black text-white space-y-8 py-8">
-            <div className="md:px-8 sm:px-0 px-8 space-y-8">
+            <div className="md:px-8 px-2 space-y-8">
                 <div className="">
                     <Logo
                         mode="light"
-                        letterClassName="text-lg px-1"
+                        letterClassName="text-lg px-1.5"
                         className="gap-1"
                     />
                 </div>
-                <p className="w-1/2 mx-auto text-center">
+                <p className="md:w-1/2 sm:w-2/3 w-full mx-auto text-center">
                     BLDEV is where tomorrow is realized. It is the essential
                     source of information and ideas that make sense of a world
                     in constant transformation. The BLDEV conversation
@@ -32,17 +32,20 @@ const Footer = (props: Props) => {
                 </p>
             </div>
             <Separator />
-            <div className="md:px-8 sm:px-0 px-8 grid grid-cols-12 gap-8">
+            <div className="md:px-8 sm:px-0 px-8 grid grid-cols-12 gap-y-8 md:gap-8">
                 <div className="col-span-12 md:col-span-6">
                     <div className="uppercase font-bold">More from BLDEV</div>
                     <ul className="grid grid-cols-2">
                         {moreFromBLDEV.map((item) => {
                             return (
-                                <li key={item.title}>
+                                <li
+                                    key={item.title}
+                                    className="col-span-2 md:col-span-1"
+                                >
                                     <Link
                                         href={item.href}
                                         title={item.title}
-                                        className="col-span-2 md:col-span-1 text-neutral-500 text-sm"
+                                        className=" text-neutral-500 text-sm"
                                     >
                                         {item.displayText}
                                     </Link>
@@ -56,11 +59,14 @@ const Footer = (props: Props) => {
                     <ul className="grid grid-cols-2">
                         {categoryParentList.map((item) => {
                             return (
-                                <li key={item.name}>
+                                <li
+                                    key={item.name}
+                                    className="col-span-2 md:col-span-1"
+                                >
                                     <Link
                                         href={`/article?cat=${item.slug}`}
                                         title={item.name}
-                                        className="col-span-2 md:col-span-1 text-neutral-500 text-sm"
+                                        className=" text-neutral-500 text-sm"
                                     >
                                         {item.name}
                                     </Link>
@@ -75,11 +81,14 @@ const Footer = (props: Props) => {
                 <ul className="grid grid-cols-4">
                     {others.map((item) => {
                         return (
-                            <li key={item.title}>
+                            <li
+                                key={item.title}
+                                className="col-span-4 sm:col-span-2 md:col-span-1 "
+                            >
                                 <Link
                                     href={item.href}
                                     title={item.title}
-                                    className="col-span-4 sm:col-span-2 md:col-span-1 text-neutral-500 text-sm"
+                                    className="text-neutral-500 text-sm"
                                 >
                                     {item.displayText}
                                 </Link>
@@ -89,7 +98,7 @@ const Footer = (props: Props) => {
                 </ul>
             </div>
             <Separator />
-            <div className="md:px-8 sm:px-0 px-8 grid grid-cols-12 gap-8">
+            <div className="md:px-8 sm:px-0 px-8 grid grid-cols-12 md:gap-8 gap-y-8">
                 <div className="col-span-12 md:col-span-9 text-sm text-neutral-500">
                     <p>
                         © 2024 Condé Nast. All rights reserved. Use of this site

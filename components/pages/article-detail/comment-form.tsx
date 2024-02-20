@@ -75,7 +75,7 @@ const CommentForm = (props: Props) => {
                         <Form {...form}>
                             <form
                                 onSubmit={form.handleSubmit(onSubmit)}
-                                className="grid grid-cols-12 gap-8 p-8 border"
+                                className="space-y-8 p-8 border"
                             >
                                 <FormField
                                     control={form.control}
@@ -107,7 +107,7 @@ const CommentForm = (props: Props) => {
                                     isLoading={
                                         createArticleCommentMutation.isPending
                                     }
-                                    className="col-span-12"
+                                    className="w-full"
                                 >
                                     Post
                                 </ButtonLoading>

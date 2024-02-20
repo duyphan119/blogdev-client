@@ -23,7 +23,7 @@ const SectionMostRecent = (props: Props) => {
                                     authorId={article.author_id}
                                     slug={article.slug}
                                     imageAlign="right"
-                                    imageClassName="hidden lg:block"
+                                    imageClassName="hidden md:block"
                                 />
                             </li>
                         );

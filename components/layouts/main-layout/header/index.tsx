@@ -33,8 +33,8 @@ const Header = (props: Props) => {
 
     return (
         <>
-            <header className="h-28 sticky top-0 bg-white z-10 shadow">
-                <div className="grid grid-cols-12 gap-1 h-16">
+            <header className="sm:h-28 h-16 sticky top-0 bg-white z-10 shadow">
+                <div className="md:grid md:grid-cols-12 gap-1 h-16 flex">
                     <div className="md:col-span-3 h-full flex items-center">
                         <Button
                             variant="ghost"
@@ -49,10 +49,14 @@ const Header = (props: Props) => {
                     </div>
                     <div className="md:col-span-6 h-full text-center">
                         <Link href="/" className="block h-full">
-                            <Logo className="h-full" mode="dark" />
+                            <Logo
+                                className="h-full"
+                                letterClassName="sm:text-3xl text-lg px-1 sm:px-2"
+                                mode="dark"
+                            />
                         </Link>
                     </div>
-                    <div className="md:col-span-3 flex justify-end h-full items-center">
+                    <div className="md:col-span-3 flex-1 flex justify-end h-full items-center">
                         {!menuVisible &&
                             isFetchedProfile &&
                             (profile ? (
@@ -60,6 +64,7 @@ const Header = (props: Props) => {
                                     href="/profile"
                                     className={buttonVariants({
                                         variant: "ghost",
+                                        className: "sm:block hidden",
                                     })}
                                 >
                                     <RiUser6Line className="text-xl" />
@@ -72,6 +77,7 @@ const Header = (props: Props) => {
                                     }}
                                     className={buttonVariants({
                                         variant: "link",
+                                        className: "sm:block hidden",
                                     })}
                                 >
                                     Sign In
@@ -88,8 +94,8 @@ const Header = (props: Props) => {
                         </Link>
                     </div>
                 </div>
-                <Separator />
-                <div className="h-11 py-1">
+                <Separator className="hidden sm:block" />
+                <div className="h-11 py-1 hidden sm:block">
                     <ul className="flex justify-center">
                         {navItems([
                             { name: "Java", slug: "java" },

@@ -13,7 +13,7 @@ const SectionToday = (props: Props) => {
     return (
         <section>
             <Box title={`Today's picks`}>
-                <div className="grid grid-cols-12 gap-8">
+                <div className="grid grid-cols-12 sm:gap-8 gap-y-8">
                     {props.articles.length > 0 && (
                         <div className="col-span-12 lg:col-span-4 space-y-8">
                             {props.articles.map((article, index) => {

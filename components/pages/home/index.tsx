@@ -17,9 +17,9 @@ type Props = {
 const Home = (props: Props) => {
     return (
         <div className="space-y-24">
-            <div className="mx-auto md:max-w-7xl md:px-8 sm:px-0 px-8">
-                <div className="grid grid-cols-12 gap-24">
-                    <div className="col-span-12 grid grid-cols-12 gap-8">
+            <div className="mx-auto md:max-w-7xl md:px-8 px-4">
+                <div className="space-y-24">
+                    <div className="grid grid-cols-12 sm:gap-8 gap-y-8">
                         <div className="col-span-12 lg:col-span-8 xl:col-span-9">
                             <SectionToday
                                 articles={props.data.today_articles}
@@ -31,31 +31,20 @@ const Home = (props: Props) => {
                             />
                         </div>
                     </div>
-                    <div className="col-span-12">
-                        <SectionLongreads
-                            articles={props.data.longreads_articles}
-                        />
-                    </div>
-                    <div className="col-span-12">
-                        <SectionCategoryArticles
-                            categories={props.data.categories}
-                        />
-                    </div>
-                    <div className="col-span-12">
-                        <SectionMostViews
-                            articles={props.data.most_views_articles}
-                        />
-                    </div>
-                    <div className="col-span-12">
-                        <SectionMostComments
-                            articles={props.data.most_comments_articles}
-                        />
-                    </div>
-                    <div className="col-span-12">
-                        <SectionTrending
-                            articles={props.data.trending_articles}
-                        />
-                    </div>
+                    {/* <SectionLongreads
+                        articles={props.data.longreads_articles}
+                    />
+                    <SectionCategoryArticles
+                        categories={props.data.categories}
+                    />
+                    <SectionMostViews
+                        articles={props.data.most_views_articles}
+                    />
+                    <SectionMostComments
+                        articles={props.data.most_comments_articles}
+                    /> */}
+
+                    <SectionTrending articles={props.data.trending_articles} />
                 </div>
             </div>
             <SectionSignUpNewsletter />

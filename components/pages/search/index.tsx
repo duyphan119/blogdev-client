@@ -69,17 +69,17 @@ const Search = (props: Props) => {
 
     return (
         <div className="space-y-8">
-            <div className="mx-auto md:max-w-7xl md:px-8 sm:px-0 px-8">
+            <div className="mx-auto md:max-w-7xl md:px-8 px-4">
                 <h1 className="text-3xl font-bold text-center">
                     Search articles from BLDEV
                 </h1>
             </div>
             <Separator />
-            <div className="mx-auto md:max-w-7xl md:px-8 sm:px-0 px-8 space-y-8">
+            <div className="mx-auto md:max-w-7xl md:px-8 px-4 space-y-8">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex w-2/3 mx-auto"
+                        className="flex sm:w-2/3 w-full sm:flex-row flex-col sm:gap-0 gap-2 mx-auto"
                     >
                         <FormField
                             control={form.control}
@@ -88,8 +88,10 @@ const Search = (props: Props) => {
                                 <FormItem className="flex-1">
                                     <FormControl>
                                         <Input
-                                            disabled={query.isPending}
                                             placeholder="Search..."
+                                            disabled={
+                                                form.formState.isSubmitting
+                                            }
                                             {...field}
                                         />
                                     </FormControl>
@@ -109,7 +111,7 @@ const Search = (props: Props) => {
                         </ButtonLoading>
                     </form>
                 </Form>
-                <div className="grid grid-cols-12 gap-8">
+                <div className="grid grid-cols-12 gap-y-8 md:gap-8">
                     <div className="col-span-12 md:col-span-9">
                         <div className="flex justify-between items-center">
                             <div className="text-sm font-light">
@@ -122,7 +124,7 @@ const Search = (props: Props) => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-12 gap-8">
+                <div className="grid grid-cols-12 gap-y-8 md:gap-8">
                     <div className="col-span-12 md:col-span-9 space-y-8">
                         <ul className="space-y-8">
                             {(query.data?.data.rows || props.data.rows).map(
@@ -144,8 +146,8 @@ const Search = (props: Props) => {
                                                 authorId={article.author_id}
                                                 createdAt={article.created_at}
                                                 slug={article.slug}
-                                                imageAlign="left"
-                                                imageClassName="w-60 h-40"
+                                                imageAlign="left-responsive-to-top"
+                                                imageClassName="md:w-60 md:h-40 sm:w-48 sm:h-32 w-full pb-[60%] sm:pb-0"
                                             />
                                         </li>
                                     );

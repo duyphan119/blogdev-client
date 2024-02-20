@@ -16,18 +16,18 @@ type Props = {
     authorFullName?: string;
     authorId?: number;
     createdAt?: string;
-    imageAlign?: "left" | "right" | "top" | "bottom";
+    imageAlign?: "left" | "right" | "top" | "bottom" | "left-responsive-to-top";
     imageClassName?: string;
     introductionText?: string;
 };
 
 const ArticleCardInfo = (props: Props) => {
-    const ImageLink = ({ className }: { className?: string }) =>
+    const ImageLink = ({ className = "block" }: { className?: string }) =>
         props.imageUrl && (
             <Link
                 href={`/article/${props.slug}`}
                 className={cn(
-                    "image relative flex-shrink-0 block",
+                    "image relative flex-shrink-0",
                     (props.imageAlign === "top" ||
                         props.imageAlign === "bottom") &&
                         "w-full pb-[60%]",
@@ -126,9 +126,18 @@ const ArticleCardInfo = (props: Props) => {
                 <ImageLink />
             </div>
         );
-    else if (props.imageAlign === "left")
+    else if (
+        props.imageAlign === "left" ||
+        props.imageAlign === "left-responsive-to-top"
+    )
         return (
-            <div className="flex gap-4 w-full">
+            <div
+                className={cn(
+                    "flex gap-4 w-full",
+                    props.imageAlign === "left-responsive-to-top" &&
+                        "sm:flex-row flex-col"
+                )}
+            >
                 <ImageLink />
                 <div className="space-y-2 flex-1">
                     <CategoryName />

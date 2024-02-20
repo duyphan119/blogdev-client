@@ -4,7 +4,7 @@ import { icons } from "@/lib/icon";
 import React from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
-
+import remarkGfm from "remark-gfm";
 import "highlight.js/styles/atom-one-dark.min.css";
 import { cn } from "@/lib/utils";
 import { PiTerminalThin } from "react-icons/pi";
@@ -12,7 +12,7 @@ import CopyButton from "./copy-button";
 
 export default function MarkdownPreview({
     content,
-    className = "sm:p-10",
+    className = "",
 }: {
     content: string;
     className?: string;
@@ -21,6 +21,7 @@ export default function MarkdownPreview({
         <Markdown
             className={cn("dark:text-gray-200 space-y-8", className)}
             rehypePlugins={[rehypeHighlight]}
+            remarkPlugins={[remarkGfm]}
             components={{
                 h1: ({ node, ...props }) => {
                     return <h1 {...props} className="text-3xl font-bold" />;
@@ -52,7 +53,7 @@ export default function MarkdownPreview({
                         }
 
                         return (
-                            <div className=" bg-neutral-700 text-gray-300 border-[0.5px] rounded-md border-zinc-500">
+                            <div className="w-full bg-neutral-700 text-gray-300 border-[0.5px] rounded-md border-zinc-500">
                                 <div className="flex items-center justify-between px-5 py-2 border-b-[0.5px] border-zinc-500">
                                     <div className="flex items-center gap-2">
                                         <Icon />
@@ -103,6 +104,9 @@ export default function MarkdownPreview({
                             className="border-l-4 border-blue-500 pl-4 py-2 my-4"
                         />
                     );
+                },
+                table: ({ node, ...props }) => {
+                    return <table {...props} className="w-full" />;
                 },
             }}
         >

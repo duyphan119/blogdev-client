@@ -23,7 +23,7 @@ const RecommendArticleList = (props: Props) => {
                 You Might Also Like
             </div>
             <div className="mt-8">
-                <ul className="grid grid-cols-12 gap-8">
+                <ul className="grid grid-cols-12 gap-y-8 sm:gap-8">
                     {query.data.data.rows.map((article) => {
                         return (
                             <li

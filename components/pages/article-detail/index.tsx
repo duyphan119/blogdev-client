@@ -5,22 +5,14 @@ import MarkdownPreview from "@/components/markdown/markdown-preview";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import SocialMediaList from "@/components/user/social-media-list";
 import { Article } from "@/types/article";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import {
-    RiFacebookLine,
-    RiGithubLine,
-    RiLinkedinLine,
-    RiPinterestLine,
-    RiTwitterXLine,
-    RiYoutubeLine,
-} from "react-icons/ri";
 import CommentForm from "./comment-form";
 import Comments from "./comments";
 import RecommendArticleList from "./recommend-article-list";
-import SocialMediaList from "@/components/user/social-media-list";
 
 type Props = {
     article: Article;
@@ -28,15 +20,15 @@ type Props = {
 const COMMENT_LIMIT = 5;
 const ArticleDetail = (props: Props) => {
     return (
-        <div className="mx-auto md:max-w-7xl md:px-4 sm:px-0 px-8 space-y-8">
-            <div className="article-head flex items-center gap-2">
+        <div className="container space-y-8">
+            <div className="article-head flex justify-between items-center gap-2 md:flex-nowrap flex-wrap">
                 <Link
                     href={`/article?author=${props.article.author.id}`}
-                    className="article-author bg-black text-white underline-offset-4 hover:underline px-2 py-1"
+                    className="article-author bg-black text-white underline-offset-4 hover:underline px-2 py-1 sm:inline block"
                 >
                     {props.article.author.full_name}
                 </Link>
-                <div className="h-6">
+                <div className="h-6 md:block hidden">
                     <Separator orientation="vertical" />
                 </div>
                 <Link
@@ -48,10 +40,10 @@ const ArticleDetail = (props: Props) => {
                 >
                     {props.article.category.name}
                 </Link>
-                <div className="h-6">
+                <div className="h-6 md:block hidden">
                     <Separator orientation="vertical" />
                 </div>
-                <time className="article-date">
+                <time className="article-date flex-1 sm:text-left text-center">
                     {moment(props.article.created_at).format(
                         "MMM D, YYYY H:m A"
                     )}
@@ -66,58 +58,47 @@ const ArticleDetail = (props: Props) => {
                 </p>
             </div>
             <ArticleListWrapper articleSlug={props.article.slug}>
-                <div className="col-span-12 md:col-span-8 space-y-8">
-                    <div className="space-y-8">
-                        <div className="article-image relative w-full pb-[60%]">
-                            <Image
-                                src={props.article.image_url}
-                                fill
-                                priority
-                                className="rounded-sm object-contain"
-                                alt="thumbnail"
-                                sizes="(max-width: 1200px) 40vw, 100vw"
-                            />
-                        </div>
-                        {/* <div
-                            className="article-content"
-                            dangerouslySetInnerHTML={{
-                                __html: props.article.content,
-                            }}
-                        ></div> */}
-                        <MarkdownPreview content={props.article.content} />
-                        <Separator />
-                        <div className="flex gap-8 ">
-                            <Avatar className="image rounded-lg relative w-20 h-20 flex-shrink-0">
-                                <AvatarImage
-                                    src={props.article.author.image_url}
+                <div className="space-y-8">
+                    <div className="article-image relative w-full pb-[60%]">
+                        <Image
+                            src={props.article.image_url}
+                            fill
+                            priority
+                            className="rounded-sm object-contain"
+                            alt="thumbnail"
+                            sizes="(max-width: 1200px) 40vw, 100vw"
+                        />
+                    </div>
+                    <MarkdownPreview content={props.article.content} />
+                    <Separator />
+                    <div className="flex gap-8 ">
+                        <Avatar className="image rounded-lg relative w-20 h-20 flex-shrink-0">
+                            <AvatarImage src={props.article.author.image_url} />
+                        </Avatar>
+                        <div className="flex-1">
+                            <Link
+                                href={`/article?author=${props.article.author.id}`}
+                                className="article-author hover:underline-offset-4 hover:underline block text-xl font-bold"
+                            >
+                                {props.article.author.full_name}
+                            </Link>
+                            <div className="my-2">
+                                {props.article.author.introduction}
+                            </div>
+                            <div className="flex md:gap-12 gap-2 md:flex-row flex-col md:items-center">
+                                <div className="text-neutral-500 uppercase">
+                                    {props.article.author.career}
+                                </div>
+                                <SocialMediaList
+                                    author={props.article.author}
                                 />
-                            </Avatar>
-                            <div className="space-y-4 flex-1">
-                                <div className="">
-                                    <Link
-                                        href={`/article?author=${props.article.author.id}`}
-                                        className="article-authorunderline-offset-4 underline "
-                                    >
-                                        {props.article.author.full_name}
-                                    </Link>
-                                    &nbsp;
-                                    {props.article.author.introduction}
-                                </div>
-                                <div className="flex gap-12 items-center">
-                                    <div className="text-neutral-500 uppercase">
-                                        {props.article.author.career}
-                                    </div>
-                                    <SocialMediaList
-                                        author={props.article.author}
-                                    />
-                                </div>
                             </div>
                         </div>
-                        <Separator />
-                        <Comments articleSlug={props.article.slug} />
-                        <Separator />
-                        <CommentForm articleId={props.article.id} />
                     </div>
+                    <Separator />
+                    <Comments articleSlug={props.article.slug} />
+                    <Separator />
+                    <CommentForm articleId={props.article.id} />
                 </div>
             </ArticleListWrapper>
             <RecommendArticleList articleSlug={props.article.slug} />

@@ -20,7 +20,10 @@ const Pagination = ({
     if (!totalPages || !currentPage) return null;
     return (
         <div
-            className={cn("flex items-center gap-4 justify-center", className)}
+            className={cn(
+                "flex items-center md:gap-4 gap-2 justify-center md:flex-nowrap flex-wrap",
+                className
+            )}
         >
             <Button size="icon" onClick={() => onPageChange?.(1)}>
                 <RiSkipBackLine />

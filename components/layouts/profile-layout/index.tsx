@@ -22,12 +22,12 @@ const Content = (props: ContentProps) => {
     if (isFetchedProfile && !profile) notFound();
 
     return (
-        <div className="mx-auto md:max-w-7xl md:px-8 sm:px-0 px-8">
-            <div className="grid grid-cols-12 gap-8">
-                <div className="col-span-12 md:col-span-3">
+        <div className="mx-auto md:max-w-7xl md:px-8 px-4">
+            <div className="grid grid-cols-12 md:gap-8 gap-y-8">
+                <div className="col-span-12 md:col-span-3 shadow-md">
                     <Sidebar />
                 </div>
-                <div className="col-span-12 md:col-span-9">
+                <div className="col-span-12 md:col-span-9 shadow-2xl">
                     {props.children}
                 </div>
             </div>
