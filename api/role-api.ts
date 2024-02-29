@@ -5,7 +5,7 @@ import { Role } from "@/types/role";
 const roleApi = {
     getAll: async () => {
         const response: ApiResponse<Role[]> = await getPrivateAxios().get(
-            "role"
+            "role/user"
         );
         return response;
     },

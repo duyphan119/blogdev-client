@@ -1,11 +1,11 @@
 "use client";
 
-import { ArticleCard } from "@/types/article";
-import ArticleCardInfo from "../my-articles/article-card-info";
+import { Article } from "@/types/article";
+import ArticleCardInfo from "../../article/article-card-info";
 import Box from "./box";
 
 type Props = {
-    articles: ArticleCard[];
+    articles: Article[];
 };
 
 const SectionMostRecent = (props: Props) => {
@@ -19,8 +19,8 @@ const SectionMostRecent = (props: Props) => {
                                 <ArticleCardInfo
                                     title={article.title}
                                     imageUrl={article.image_url}
-                                    authorFullName={article.author_full_name}
-                                    authorId={article.author_id}
+                                    authorFullName={article.author.full_name}
+                                    authorId={article.author.id}
                                     slug={article.slug}
                                     imageAlign="right"
                                     imageClassName="hidden md:block"

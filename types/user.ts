@@ -1,3 +1,5 @@
+import { Role } from "./role";
+
 export type Author = {
     id: number;
     full_name: string;
@@ -13,4 +15,5 @@ export type Author = {
     career: string;
     email: string;
     image_url: string;
+    roles: Role[];
 };

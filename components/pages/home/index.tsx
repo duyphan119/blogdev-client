@@ -31,7 +31,7 @@ const Home = (props: Props) => {
                             />
                         </div>
                     </div>
-                    {/* <SectionLongreads
+                    <SectionLongreads
                         articles={props.data.longreads_articles}
                     />
                     <SectionCategoryArticles
@@ -42,7 +42,7 @@ const Home = (props: Props) => {
                     />
                     <SectionMostComments
                         articles={props.data.most_comments_articles}
-                    /> */}
+                    />
 
                     <SectionTrending articles={props.data.trending_articles} />
                 </div>

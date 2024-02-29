@@ -1,20 +1,7 @@
 import { PaginatedData } from ".";
+import { ArticleTag } from "./article-tag";
 import { Category } from "./category";
 import { Author } from "./user";
-
-export type ArticleCard = {
-    id: number;
-    image_url: string;
-    title: string;
-    slug: string;
-    created_at: string;
-    author_id: number;
-    author_full_name: string;
-    category_name: string;
-    category_slug: string;
-    introduction_text: string;
-    is_public: boolean;
-};
 
 export type Article = {
     id: number;
@@ -29,6 +16,7 @@ export type Article = {
     category: Category;
     introduction_text: string;
     is_public: boolean;
+    tags: ArticleTag[];
 };
 
 export type ArticleParams = {
@@ -37,8 +25,9 @@ export type ArticleParams = {
     sort_by?: string;
     sort_type?: string;
     q?: string;
+    cat?: string;
 };
 
-export type AuthorArticles = PaginatedData<ArticleCard> & {
+export type AuthorArticles = PaginatedData<Article> & {
     author: Author;
 };

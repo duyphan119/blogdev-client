@@ -19,6 +19,7 @@ type Props = {
     imageAlign?: "left" | "right" | "top" | "bottom" | "left-responsive-to-top";
     imageClassName?: string;
     introductionText?: string;
+    className?: string;
 };
 
 const ArticleCardInfo = (props: Props) => {
@@ -72,7 +73,7 @@ const ArticleCardInfo = (props: Props) => {
         props.authorFullName && (
             <Link
                 href={`/article/author/${props.authorId}`}
-                className="author block text-neutral-700"
+                className="author block text-neutral-700 dark:text-neutral-400"
             >
                 <RiUser3Line className="inline mr-1 -translate-y-0.5" />
                 {props.authorFullName}
@@ -104,7 +105,7 @@ const ArticleCardInfo = (props: Props) => {
         );
     if (props.imageAlign === "top")
         return (
-            <div className="space-y-2">
+            <div className={cn("space-y-2", props.className)}>
                 <ImageLink />
                 <CategoryName />
                 <ArticleTitle />
@@ -115,7 +116,7 @@ const ArticleCardInfo = (props: Props) => {
         );
     if (props.imageAlign === "right")
         return (
-            <div className="flex gap-4 w-full">
+            <div className={cn("flex gap-2 w-full", props.className)}>
                 <div className="space-y-2 flex-1">
                     <CategoryName />
                     <ArticleTitle />
@@ -133,9 +134,10 @@ const ArticleCardInfo = (props: Props) => {
         return (
             <div
                 className={cn(
-                    "flex gap-4 w-full",
+                    "flex gap-2 w-full",
                     props.imageAlign === "left-responsive-to-top" &&
-                        "sm:flex-row flex-col"
+                        "sm:flex-row flex-col",
+                    props.className
                 )}
             >
                 <ImageLink />
@@ -150,7 +152,7 @@ const ArticleCardInfo = (props: Props) => {
         );
     else
         return (
-            <div className="grid grid-cols-12 gap-8">
+            <div className={cn("grid grid-cols-12 gap-8", props.className)}>
                 <ImageLink className="image relative col-span-12 md:col-span-6 pb-[60%] block" />
                 <div className="col-span-12 md:col-span-6 flex gap-2 flex-col">
                     <CategoryName />

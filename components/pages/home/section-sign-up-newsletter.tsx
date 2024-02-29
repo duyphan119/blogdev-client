@@ -64,7 +64,7 @@ const SectionSignUpNewsletter = (props: Props) => {
                 backgroundPosition: "center",
             }}
         >
-            <div className="flex items-center md:flex-row flex-col md:gap-8 bg-white text-black sm:p-4 p-2 md:py-14 md:px-8 gap-y-8">
+            <div className="flex items-center md:flex-row flex-col md:gap-8 dark:bg-primary-foreground bg-white text-black dark:text-primary sm:p-4 p-2 md:py-14 md:px-8 gap-y-8">
                 <div className="md:flex-1 w-full md:w-auto space-y-4">
                     <div className="">
                         <PiArrowLineDownRightBold className="text-5xl" />
@@ -79,7 +79,7 @@ const SectionSignUpNewsletter = (props: Props) => {
                         </p>
                         <Link
                             href="/newsletter"
-                            className="text-neutral-500 underline-offset-4 underline"
+                            className="text-neutral-500 dark:text-neutral-300 underline-offset-4 underline"
                         >
                             See all newsletters.
                         </Link>
@@ -114,7 +114,7 @@ const SectionSignUpNewsletter = (props: Props) => {
                             </Button>
                         </form>
                     </Form>
-                    <p className="text-neutral-500 text-[0.725rem]">
+                    <p className="text-neutral-500 dark:text-neutral-300 text-[0.725rem]">
                         By signing up you agree to our&nbsp;
                         <Link
                             className="underline-offset-4 underline"

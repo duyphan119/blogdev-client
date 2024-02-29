@@ -1,11 +1,11 @@
 "use client";
 
-import { ArticleCard } from "@/types/article";
-import ArticleCardInfo from "../my-articles/article-card-info";
+import { Article } from "@/types/article";
+import ArticleCardInfo from "../../article/article-card-info";
 import Box from "./box";
 
 type Props = {
-    articles: ArticleCard[];
+    articles: Article[];
 };
 
 const SectionToday = (props: Props) => {
@@ -24,13 +24,13 @@ const SectionToday = (props: Props) => {
                                         key={article.id}
                                         title={article.title}
                                         authorFullName={
-                                            article.author_full_name
+                                            article.author.full_name
                                         }
-                                        authorId={article.author_id}
+                                        authorId={article.author.id}
                                         imageUrl={article.image_url}
                                         slug={article.slug}
-                                        categoryName={article.category_name}
-                                        categorySlug={article.category_slug}
+                                        categoryName={article.category.name}
+                                        categorySlug={article.category.slug}
                                         imageAlign="top"
                                     />
                                 );
@@ -41,12 +41,12 @@ const SectionToday = (props: Props) => {
                         <div className="col-span-12 lg:col-span-8">
                             <ArticleCardInfo
                                 title={lastArticle.title}
-                                authorFullName={lastArticle.author_full_name}
-                                authorId={lastArticle.author_id}
+                                authorFullName={lastArticle.author.full_name}
+                                authorId={lastArticle.author.id}
                                 imageUrl={lastArticle.image_url}
                                 slug={lastArticle.slug}
-                                categoryName={lastArticle.category_name}
-                                categorySlug={lastArticle.category_slug}
+                                categoryName={lastArticle.category.name}
+                                categorySlug={lastArticle.category.slug}
                                 imageAlign="top"
                             />
                         </div>

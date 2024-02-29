@@ -13,6 +13,7 @@ import Link from "next/link";
 import CommentForm from "./comment-form";
 import Comments from "./comments";
 import RecommendArticleList from "./recommend-article-list";
+import { badgeVariants } from "@/components/ui/badge";
 
 type Props = {
     article: Article;
@@ -95,6 +96,30 @@ const ArticleDetail = (props: Props) => {
                             </div>
                         </div>
                     </div>
+
+                    {props.article.tags.length > 0 && (
+                        <>
+                            <Separator />
+                            <div className="flex gap-4 items-center">
+                                Tags:
+                                <ul className="flex gap-4">
+                                    {props.article.tags.map((tag) => {
+                                        return (
+                                            <Link
+                                                href={`/article?tag=${tag.slug}`}
+                                                className={badgeVariants({
+                                                    variant: "secondary",
+                                                })}
+                                            >
+                                                {tag.name}
+                                            </Link>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        </>
+                    )}
+
                     <Separator />
                     <Comments articleSlug={props.article.slug} />
                     <Separator />

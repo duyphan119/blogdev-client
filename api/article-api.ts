@@ -1,16 +1,11 @@
 import { ArticleRequest } from "@/components/pages/article-form";
 import { ApiResponse, PaginatedData } from "@/types";
-import {
-    Article,
-    ArticleCard,
-    ArticleParams,
-    AuthorArticles,
-} from "@/types/article";
+import { Article, ArticleParams, AuthorArticles } from "@/types/article";
 import { getPrivateAxios, getPublicAxios } from ".";
 
 const articleApi = {
     paginate: async (params?: ArticleParams) => {
-        const response: ApiResponse<PaginatedData<ArticleCard>> =
+        const response: ApiResponse<PaginatedData<Article>> =
             await getPublicAxios().get("article", {
                 params,
             });

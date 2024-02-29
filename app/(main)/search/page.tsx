@@ -2,7 +2,7 @@ import articleApi from "@/api/article-api";
 import Search from "@/components/pages/search";
 import { formatTitle } from "@/lib/utils";
 import { PaginatedData } from "@/types";
-import { ArticleCard } from "@/types/article";
+import { Article } from "@/types/article";
 import { Metadata } from "next";
 
 type Props = {

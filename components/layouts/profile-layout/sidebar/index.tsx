@@ -10,7 +10,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import useUserStore from "@/zustand/use-user-store";
 import authApi from "@/api/auth-api";
 import { deleteCookie } from "cookies-next";
-import { RiUpload2Fill } from "react-icons/ri";
+import { RiDashboard2Line, RiUpload2Fill } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import AvatarProfile from "./avatar-profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -41,6 +41,23 @@ const Sidebar = (props: Props) => {
             </div>
             <Separator />
             <ul className="space-y-2">
+                {profile?.roles.findIndex((item) => item.name === "ADMIN") !==
+                    -1 && (
+                    <>
+                        <li>
+                            <Link
+                                href="/admin"
+                                className="flex items-center gap-2 capitalize rounded w-full justify-start text-left h-10 px-4 py-2"
+                            >
+                                <RiDashboard2Line className="text-xl" />
+                                Dashboard
+                            </Link>
+                        </li>
+                        <li>
+                            <Separator />
+                        </li>
+                    </>
+                )}
                 {sidebarItems.map((item, index) => {
                     const Icon = item.icon;
                     const isActive = pathname === item.href;
@@ -52,7 +69,11 @@ const Sidebar = (props: Props) => {
                     );
                     return (
                         <Fragment key={item.title}>
-                            {index > 0 && <Separator />}
+                            {index > 0 && (
+                                <li>
+                                    <Separator />
+                                </li>
+                            )}
                             <li>
                                 {item.href ? (
                                     <Link

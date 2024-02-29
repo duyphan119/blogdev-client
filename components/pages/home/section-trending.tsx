@@ -1,11 +1,11 @@
 "use client";
 
-import { ArticleCard } from "@/types/article";
-import ArticleCardInfo from "../my-articles/article-card-info";
+import { Article } from "@/types/article";
+import ArticleCardInfo from "../../article/article-card-info";
 import Box from "./box";
 
 type Props = {
-    articles: ArticleCard[];
+    articles: Article[];
 };
 
 const SectionTrending = (props: Props) => {
@@ -23,10 +23,10 @@ const SectionTrending = (props: Props) => {
                                     key={article.id}
                                     title={article.title}
                                     imageUrl={article.image_url}
-                                    categoryName={article.category_name}
-                                    categorySlug={article.category_slug}
-                                    authorFullName={article.author_full_name}
-                                    authorId={article.author_id}
+                                    categoryName={article.category.name}
+                                    categorySlug={article.category.slug}
+                                    authorFullName={article.author.full_name}
+                                    authorId={article.author.id}
                                     slug={article.slug}
                                     imageAlign="top"
                                     introductionText={article.introduction_text}

@@ -1,22 +1,33 @@
+import categoryApi from "@/api/category-api";
 import Articles from "@/components/pages/articles";
 import { formatTitle } from "@/lib/utils";
-import React from "react";
+import { Metadata } from "next";
 
 type Props = {
     searchParams: {
-        p?: string;
-        author?: string;
+        cat?: string;
     };
 };
 
-export const generateMetadata = () => {
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+    let title = formatTitle("Articles");
+    try {
+        if (props.searchParams.cat) {
+            const response = await categoryApi.getBySlug(
+                props.searchParams.cat
+            );
+            if (response.message === "Success") {
+                title = formatTitle(`Aritlces - ${response.data.name}`);
+            }
+        }
+    } catch (error) {}
     return {
-        title: formatTitle("Articles"),
+        title,
     };
 };
 
 const ArticlesPage = (props: Props) => {
-    return <Articles />;
+    return <Articles categorySlug={props.searchParams.cat} limit={10} />;
 };
 
 export default ArticlesPage;

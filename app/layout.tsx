@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import QueryWrapper from "@/components/react-query/query-wrapper";
 import NextTopLoader from "nextjs-toploader";
+import { ThemeProvider } from "@/components/common/theme-provider";
 
 const roboto = Roboto({
     subsets: [
@@ -28,10 +29,19 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body className={roboto.className}>
                 <NextTopLoader />
-                <QueryWrapper>{children}</QueryWrapper>
+                <QueryWrapper>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        {children}
+                    </ThemeProvider>
+                </QueryWrapper>
             </body>
         </html>
     );

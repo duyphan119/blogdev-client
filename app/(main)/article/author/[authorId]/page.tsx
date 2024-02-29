@@ -1,6 +1,6 @@
 import articleApi from "@/api/article-api";
 import AuthorArticles from "@/components/pages/author-articles";
-import { ArticleCard } from "@/types/article";
+import { Article } from "@/types/article";
 import { Author } from "@/types/user";
 import { notFound } from "next/navigation";
 
@@ -16,7 +16,7 @@ type Props = {
 const ARTICLE_LIMIT = 10;
 
 const AuthorArticlesPage = async (props: Props) => {
-    let articles: ArticleCard[] = [];
+    let articles: Article[] = [];
     let totalPages = 0;
     let count = 0;
     let author: Author | null = null;

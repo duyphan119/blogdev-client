@@ -8,6 +8,7 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Header from "./header";
 import Sidebar from "./sidebar";
+import { cn } from "@/lib/utils";
 
 type Props = {
     children: ReactNode;
@@ -18,12 +19,9 @@ type ContentProps = {
 };
 
 const Content = (props: ContentProps) => {
-    const {} = useUserStore();
+    const { profile, isFetchedProfile } = useUserStore();
 
     const isLgScreen = useMediaQuery({ query: "(min-width: 1000px)" });
-
-    const [isFetched, setIsFetched] = useState(false);
-    const [isNotfound, setIsNotfound] = useState(true);
 
     const [sidebarOpen, setSidebarOpen] = useState(isLgScreen);
 
@@ -39,43 +37,21 @@ const Content = (props: ContentProps) => {
         setSidebarOpen(isLgScreen);
     }, [isLgScreen]);
 
-    useEffect(() => {
-        const fetchRoleList = async () => {
-            try {
-                const response = await roleApi.getAll();
-                console.log(response);
-                if (
-                    response.message === "Success" &&
-                    response.data.findIndex((item) => item.name === "ADMIN") !==
-                        -1
-                ) {
-                    setIsNotfound(false);
-                }
-            } catch (error) {
-            } finally {
-                setIsFetched(true);
-            }
-        };
+    if (!isFetchedProfile) return null;
 
-        fetchRoleList();
-    }, []);
-
-    if (!isFetched) return null;
-
-    if (isFetched && isNotfound) redirect("/login");
+    if (profile?.roles.findIndex((item) => item.name === "ADMIN") === -1)
+        redirect("/login");
     else {
         return (
-            <div className="flex">
-                <Sidebar open={sidebarOpen} onClose={handleClose} />
-                <div className="relative overflow-y-auto flex flex-col min-h-screen flex-1">
-                    <Header
-                        onToggleSidebar={handleToggleSidebar}
-                        open={sidebarOpen}
-                    />
+            <div className="flex flex-col min-h-screen">
+                <Header
+                    onToggleSidebar={handleToggleSidebar}
+                    open={sidebarOpen}
+                />
+                <div className={cn("relative overflow-y-auto flex flex-1")}>
+                    <Sidebar open={sidebarOpen} onClose={handleClose} />
                     <main
-                        className={`sm:p-6 p-2 bg-lightgrey transition-all duration-500 flex-1 ${
-                            sidebarOpen ? "md:ml-[286px]" : "ml-0"
-                        }`}
+                        className={`sm:p-6 bg-lightgrey transition-all duration-500 flex-1`}
                     >
                         <div className="h-full">{props.children}</div>
                     </main>

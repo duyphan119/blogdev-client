@@ -18,6 +18,7 @@ import { usePathname } from "next/navigation";
 import useUserStore from "@/zustand/use-user-store";
 import { cn } from "@/lib/utils";
 import HeaderMenu from "./header-menu";
+import ButtonDarkMode from "@/components/common/button/button-dark-mode";
 
 type Props = {};
 
@@ -33,7 +34,7 @@ const Header = (props: Props) => {
 
     return (
         <>
-            <header className="sm:h-28 h-16 sticky top-0 bg-white z-10 shadow">
+            <header className="sm:h-28 h-16 sticky top-0 dark:bg-primary-foreground bg-white z-10 shadow">
                 <div className="md:grid md:grid-cols-12 gap-1 h-16 flex">
                     <div className="md:col-span-3 h-full flex items-center">
                         <Button
@@ -92,15 +93,13 @@ const Header = (props: Props) => {
                         >
                             <RiSearchLine className="text-xl" />
                         </Link>
+                        <ButtonDarkMode />
                     </div>
                 </div>
                 <Separator className="hidden sm:block" />
                 <div className="h-11 py-1 hidden sm:block">
                     <ul className="flex justify-center">
-                        {navItems([
-                            { name: "Java", slug: "java" },
-                            { name: "Python", slug: "python" },
-                        ]).map((navItem, index) => {
+                        {navItems.map((navItem, index) => {
                             const isActive = navItem.href === pathname;
                             return (
                                 <Fragment key={index}>
@@ -110,30 +109,22 @@ const Header = (props: Props) => {
                                         </li>
                                     )}
                                     <li>
-                                        {navItem.href ? (
-                                            <Link
-                                                href={navItem.href}
-                                                className={buttonVariants({
-                                                    variant: "link",
-                                                    className: cn(
-                                                        isActive && "underline"
-                                                    ),
-                                                })}
-                                                title={
-                                                    navItem.title ||
-                                                    navItem.displayText
-                                                }
-                                            >
-                                                {navItem.displayText}
-                                            </Link>
-                                        ) : (
-                                            <Button variant="ghost">
-                                                {navItem.displayText}
-                                                {!!navItem.children?.length && (
-                                                    <RiArrowDropDownFill className="text-xl" />
-                                                )}
-                                            </Button>
-                                        )}
+                                        <Link
+                                            href={navItem.href}
+                                            className={buttonVariants({
+                                                variant: "link",
+                                                className: cn(
+                                                    isActive && "underline",
+                                                    "dark:text-primary"
+                                                ),
+                                            })}
+                                            title={
+                                                navItem.title ||
+                                                navItem.displayText
+                                            }
+                                        >
+                                            {navItem.displayText}
+                                        </Link>
                                     </li>
                                 </Fragment>
                             );

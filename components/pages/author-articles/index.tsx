@@ -4,17 +4,14 @@ import articleApi from "@/api/article-api";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import SocialMediaList from "@/components/user/social-media-list";
-import { ArticleCard } from "@/types/article";
+import { Article } from "@/types/article";
 import { Author } from "@/types/user";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import moment from "moment";
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import ArticleCardInfo from "../my-articles/article-card-info";
+import ArticleCardInfo from "../../article/article-card-info";
 
 type Props = {
-    articles?: ArticleCard[];
+    articles?: Article[];
     totalPages?: number;
     author: Author;
     limit?: number;
@@ -75,12 +72,12 @@ const AuthorArticles = ({
                                     <ArticleCardInfo
                                         title={article.title}
                                         imageUrl={article.image_url}
-                                        categoryName={article.category_name}
-                                        categorySlug={article.category_slug}
+                                        categoryName={article.category.name}
+                                        categorySlug={article.category.slug}
                                         authorFullName={
-                                            article.author_full_name
+                                            article.author.full_name
                                         }
-                                        authorId={article.author_id}
+                                        authorId={article.author.id}
                                         createdAt={article.created_at}
                                         slug={article.slug}
                                         imageAlign="left-responsive-to-top"

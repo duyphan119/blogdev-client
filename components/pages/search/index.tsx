@@ -5,11 +5,11 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { PaginatedData } from "@/types";
-import { ArticleCard } from "@/types/article";
+import { Article } from "@/types/article";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import ArticleCardInfo from "../my-articles/article-card-info";
+import ArticleCardInfo from "../../article/article-card-info";
 import { useRouter } from "next/navigation";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -17,7 +17,7 @@ import articleApi from "@/api/article-api";
 import { Button } from "@/components/ui/button";
 
 type Props = {
-    data: PaginatedData<ArticleCard>;
+    data: PaginatedData<Article>;
     defaultKeyword: string;
     limit: number;
 };
@@ -69,13 +69,13 @@ const Search = (props: Props) => {
 
     return (
         <div className="space-y-8">
-            <div className="mx-auto md:max-w-7xl md:px-8 px-4">
+            <div className="container">
                 <h1 className="text-3xl font-bold text-center">
                     Search articles from BLDEV
                 </h1>
             </div>
             <Separator />
-            <div className="mx-auto md:max-w-7xl md:px-8 px-4 space-y-8">
+            <div className="container space-y-8">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -135,19 +135,20 @@ const Search = (props: Props) => {
                                                 title={article.title}
                                                 imageUrl={article.image_url}
                                                 categoryName={
-                                                    article.category_name
+                                                    article.category.name
                                                 }
                                                 categorySlug={
-                                                    article.category_slug
+                                                    article.category.slug
                                                 }
                                                 authorFullName={
-                                                    article.author_full_name
+                                                    article.author.full_name
                                                 }
-                                                authorId={article.author_id}
+                                                authorId={article.author.id}
                                                 createdAt={article.created_at}
                                                 slug={article.slug}
                                                 imageAlign="left-responsive-to-top"
                                                 imageClassName="md:w-60 md:h-40 sm:w-48 sm:h-32 w-full pb-[60%] sm:pb-0"
+                                                className="gap-4"
                                             />
                                         </li>
                                     );
@@ -158,7 +159,9 @@ const Search = (props: Props) => {
                             <div className="text-center">
                                 {currentPage < props.data.total_pages ? (
                                     <Button
-                                        disabled={query.isPending}
+                                        disabled={
+                                            queryIsEnabled && query.isPending
+                                        }
                                         onClick={() =>
                                             handlePageChange(currentPage + 1)
                                         }
@@ -168,7 +171,9 @@ const Search = (props: Props) => {
                                     </Button>
                                 ) : (
                                     <Button
-                                        disabled={query.isPending}
+                                        disabled={
+                                            queryIsEnabled && query.isPending
+                                        }
                                         onClick={() => handlePageChange(1)}
                                         className="uppercase"
                                     >

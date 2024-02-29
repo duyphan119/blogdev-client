@@ -1,6 +1,8 @@
 "use client";
 
 import authApi from "@/api/auth-api";
+import roleApi from "@/api/role-api";
+import { Role } from "@/types/role";
 import useUserStore from "@/zustand/use-user-store";
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
@@ -10,10 +12,9 @@ type Props = {
 };
 
 const AuthenticationWrapper = (props: Props) => {
-    const { setProfile } = useUserStore();
+    const { setProfile, profile } = useUserStore();
 
     const {
-        status,
         data: response,
         isFetching,
         isFetched,
@@ -32,7 +33,19 @@ const AuthenticationWrapper = (props: Props) => {
 
     useEffect(() => {
         if (isSuccess) {
-            setProfile(response.data);
+            const fetchRoleList = async () => {
+                let roles: Role[] = [];
+                try {
+                    const { message, data } = await roleApi.getAll();
+                    roles = message === "Success" ? data : [];
+                } catch (error) {}
+                setProfile({
+                    ...response.data,
+                    roles,
+                });
+            };
+
+            fetchRoleList();
         } else if (isFetched) {
             setProfile(null);
         }

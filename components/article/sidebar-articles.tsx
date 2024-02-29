@@ -1,11 +1,11 @@
 "use client";
 
-import { ArticleCard } from "@/types/article";
+import { Article } from "@/types/article";
 import Box from "../pages/home/box";
-import ArticleCardInfo from "../pages/my-articles/article-card-info";
+import ArticleCardInfo from "./article-card-info";
 
 type Props = {
-    articles: ArticleCard[];
+    articles: Article[];
     title: string;
 };
 

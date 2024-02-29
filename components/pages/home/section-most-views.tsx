@@ -1,13 +1,13 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
-import { ArticleCard } from "@/types/article";
+import { Article } from "@/types/article";
 import { Fragment } from "react";
-import ArticleCardInfo from "../my-articles/article-card-info";
+import ArticleCardInfo from "../../article/article-card-info";
 import Box from "./box";
 
 type Props = {
-    articles: ArticleCard[];
+    articles: Article[];
 };
 
 const SectionMostViews = (props: Props) => {
@@ -18,37 +18,33 @@ const SectionMostViews = (props: Props) => {
             <Box title="Most views">
                 <div className="space-y-8">
                     <ArticleCardInfo
-                        categoryName={firstArticle.category_name}
-                        categorySlug={firstArticle.category_slug}
+                        categoryName={firstArticle.category.name}
+                        categorySlug={firstArticle.category.slug}
                         title={firstArticle.title}
                         imageUrl={firstArticle.image_url}
-                        authorFullName={firstArticle.author_full_name}
-                        authorId={firstArticle.author_id}
+                        authorFullName={firstArticle.author.full_name}
+                        authorId={firstArticle.author.id}
                         slug={firstArticle.slug}
                         introductionText={firstArticle.introduction_text}
                     />
-                    <ul className="flex gap-4">
-                        {articles.map((article, index) => {
+                    <ul className="grid grid-cols-12 gap-y-6 md:gap-6">
+                        {articles.map((article) => {
                             return (
-                                <Fragment key={article.id}>
-                                    {index > 0 && (
-                                        <li className="">
-                                            <Separator orientation="vertical" />
-                                        </li>
-                                    )}
-                                    <li>
-                                        <ArticleCardInfo
-                                            title={article.title}
-                                            imageUrl={article.image_url}
-                                            authorFullName={
-                                                article.author_full_name
-                                            }
-                                            authorId={article.author_id}
-                                            slug={article.slug}
-                                            imageAlign="right"
-                                        />
-                                    </li>
-                                </Fragment>
+                                <li
+                                    className="col-span-12 md:col-span-6 lg:col-span-3"
+                                    key={article.id}
+                                >
+                                    <ArticleCardInfo
+                                        title={article.title}
+                                        imageUrl={article.image_url}
+                                        authorFullName={
+                                            article.author.full_name
+                                        }
+                                        authorId={article.author.id}
+                                        slug={article.slug}
+                                        imageAlign="right"
+                                    />
+                                </li>
                             );
                         })}
                     </ul>
