@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import ButtonDarkMode from "@/components/common/button/button-dark-mode";
 import Logo from "../../main-layout/header/logo";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Props = {
     onToggleSidebar: () => void;
@@ -18,23 +19,28 @@ const Header: FC<Props> = ({ onToggleSidebar, open }) => {
     const { profile } = useUserStore();
     return (
         <header
-            className={`px-6 bg-primary dark:bg-primary shadow z-[1147] flex items-center justify-between gap-4 transition-all duration-500 h-20`}
+            className={`pr-6 bg-primary-foreground dark:bg-primary-foreground shadow z-[1147] flex items-center justify-between transition-all duration-500 h-20`}
         >
-            <Logo
-                mode="light"
-                className={cn("h-20", open ? "w-60 mr-6" : "w-0 hidden")}
-            />
-            <div className="left flex items-center gap-4 flex-1">
-                <span
-                    className="cursor-pointer text-2xl text-primary-foreground dark:text-primary-foreground"
+            <Link href="/admin">
+                <Logo
+                    mode="dark"
+                    className={cn(
+                        "h-20 transition-all duration-500 z-[1]",
+                        open ? "w-60 mx-6 opacity-100" : "w-0 opacity-0"
+                    )}
+                />
+            </Link>
+            <div className="left flex items-center flex-1 mr-4">
+                <button
+                    className="cursor-pointer text-2xl text-primary dark:text-primary w-12 mx-2 justify-center flex py-2 z-[2]"
                     onClick={onToggleSidebar}
                 >
                     <GrMenu />
-                </span>
+                </button>
                 <div className="relative flex-1">
                     <Input
                         type="search"
-                        className="pl-9"
+                        className="pl-9 bg-primary-foreground dark:bg-primary-foreground"
                         placeholder="Nhập từ khoá để tìm kiếm"
                     />
                     <span className="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-500">
@@ -44,10 +50,10 @@ const Header: FC<Props> = ({ onToggleSidebar, open }) => {
             </div>
             <div className="right flex items-center gap-4 justify-end">
                 {/* <NotificationIcon /> */}
-                <ButtonDarkMode />
-                <p className="text-primary-foreground dark:text-primary-foreground hidden md:block">
+                <ButtonDarkMode variant="ghost" />
+                <p className="text-primary dark:text-primary hidden md:block">
                     <span className="font-extralight">Welcome,&nbsp;</span>
-                    <span className="font-medium text-primary-foreground dark:text-primary-foreground">
+                    <span className="font-medium text-primary dark:text-primary">
                         {profile?.full_name}
                     </span>
                 </p>

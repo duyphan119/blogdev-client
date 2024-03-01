@@ -49,21 +49,24 @@ const SidebarItem = ({ item, sidebarOpen }: Props) => {
         <>
             <div
                 onClick={handleItemClick}
-                className="flex items-center gap-2 p-2 text-primary-foreground dark:text-primary-foreground cursor-pointer"
+                className={cn(
+                    "flex items-center p-2 text-primary dark:text-primary cursor-pointer",
+                    sidebarOpen ? "" : "justify-center"
+                )}
             >
                 <Icon className="text-2xl" />
-                <div className="flex-1">{sidebarOpen ? item.label : ""}</div>
+                {sidebarOpen && <div className="flex-1 ml-2">{item.label}</div>}
                 {item.children &&
                     item.children.length > 0 &&
                     sidebarOpen &&
                     (menuVisible ? (
-                        <RiArrowDropUpLine className="text-2xl" />
+                        <RiArrowDropUpLine className="text-2xl ml-2" />
                     ) : (
-                        <RiArrowDropDownLine className="text-2xl" />
+                        <RiArrowDropDownLine className="text-2xl ml-2" />
                     ))}
             </div>
             {item.children && item.children.length > 0 && menuVisible ? (
-                <ul className="flex flex-col gap-0.5 text-primary-foreground dark:text-primary-foreground bg-muted-foreground">
+                <ul className="flex flex-col gap-0.5 text-primary dark:text-primary bg-muted">
                     {item.children.map((child, indexChild) => {
                         const Icon = child.icon || Fragment;
                         const isActive = pathname === child.href;

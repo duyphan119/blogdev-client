@@ -8,27 +8,24 @@ type Props = {
     letterClassName?: string;
 };
 
-const Logo = (props: Props) => {
+const Logo = ({ className, mode, letterClassName }: Props) => {
     return (
         <div
-            className={cn(
-                "flex gap-2 items-center justify-center",
-                props.className
-            )}
+            className={cn("flex gap-2 items-center justify-center", className)}
         >
             {"BLDEV".split("").map((letter, index) => (
                 <div
                     key={letter}
                     className={cn(
                         index % 2 === 0
-                            ? props.mode === "dark"
+                            ? mode === "dark"
                                 ? "bg-black text-white dark:bg-white dark:text-black"
                                 : "bg-white text-black dark:bg-black dark:text-white"
-                            : props.mode === "dark"
+                            : mode === "dark"
                             ? "text-black dark:text-white"
                             : "text-white dark:text-black",
                         "text-3xl px-2",
-                        props.letterClassName
+                        letterClassName
                     )}
                 >
                     {letter}

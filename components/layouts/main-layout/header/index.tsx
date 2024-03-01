@@ -93,7 +93,7 @@ const Header = (props: Props) => {
                         >
                             <RiSearchLine className="text-xl" />
                         </Link>
-                        <ButtonDarkMode />
+                        <ButtonDarkMode variant="ghost" />
                     </div>
                 </div>
                 <Separator className="hidden sm:block" />

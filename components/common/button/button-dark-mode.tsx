@@ -4,14 +4,22 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { RiMoonLine, RiSunLine } from "react-icons/ri";
 
-type Props = {};
+type Props = {
+    variant?:
+        | "link"
+        | "default"
+        | "destructive"
+        | "outline"
+        | "secondary"
+        | "ghost";
+};
 
-const ButtonDarkMode = (props: Props) => {
+const ButtonDarkMode = ({ variant = "default" }: Props) => {
     const { setTheme, resolvedTheme } = useTheme();
 
     return (
         <Button
-            variant="ghost"
+            variant={variant}
             onClick={() =>
                 setTheme(resolvedTheme === "light" ? "dark" : "light")
             }

@@ -1,6 +1,7 @@
 "use client";
 
 import CustomTable, { Column } from "./custom-table";
+import Head, { HeadOptions } from "./head";
 import Pagination, { PaginationOptions } from "./pagination";
 
 type TableOptions = {
@@ -11,12 +12,13 @@ type TableOptions = {
 type Props = {
     tableOptions?: TableOptions;
     paginationOptions?: PaginationOptions;
+    headOptions?: HeadOptions;
 };
 
-const DataTable = ({ tableOptions, paginationOptions }: Props) => {
+const DataTable = ({ tableOptions, paginationOptions, headOptions }: Props) => {
     return (
         <div className="data-table">
-            <div className="head">header</div>
+            {headOptions && <Head {...headOptions} />}
             {tableOptions && (
                 <div className="table w-full">
                     <CustomTable {...tableOptions} />

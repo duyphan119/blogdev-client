@@ -14,6 +14,7 @@ export type Column = {
     field: string;
     className?: string;
     render?: (row: any) => ReactNode;
+    renderColumn?: () => ReactNode;
 };
 
 export type TableProps = {
@@ -27,7 +28,7 @@ const CustomTable = ({ rows = [], columns = [], caption }: TableProps) => {
         return columns.map((column) => {
             return (
                 <TableHead className={column.className} key={column.field}>
-                    {column.text || column.field}
+                    {column.renderColumn?.() || column.text || column.field}
                 </TableHead>
             );
         });

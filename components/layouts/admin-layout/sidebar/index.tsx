@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo } from "react";
 import { IconType } from "react-icons";
-import { RiLogoutBoxLine, RiUser2Line } from "react-icons/ri";
+import { RiLogoutBoxLine, RiNewspaperLine, RiUser2Line } from "react-icons/ri";
 import { TbCategory2 } from "react-icons/tb";
 import { useMediaQuery } from "react-responsive";
 import SidebarItem from "./sidebar-item";
+import { cn } from "@/lib/utils";
 
 type Props = {
     open: boolean;
@@ -30,6 +31,12 @@ const Sidebar = (props: Props) => {
                 title: "Category",
                 icon: TbCategory2,
                 href: "/admin/category",
+            },
+            {
+                label: "Article",
+                title: "Article",
+                icon: RiNewspaperLine,
+                href: "/admin/article",
             },
             {
                 label: "Profile",
@@ -64,10 +71,18 @@ const Sidebar = (props: Props) => {
     return (
         <>
             <aside
-                className={`bg-primary dark:bg-primary z-[1149] transition-all duration-500 w-72`}
+                className={cn(
+                    "bg-primary-foreground dark:bg-primary-foreground z-[1149] transition-all duration-500",
+                    props.open ? "w-72" : "w-16"
+                )}
             >
                 <nav className="nav">
-                    <ul className="px-4 flex flex-col">
+                    <ul
+                        className={cn(
+                            "flex flex-col gap-2",
+                            props.open ? "px-4" : "px-2"
+                        )}
+                    >
                         {items.map((item, index) => {
                             return (
                                 <li key={index}>

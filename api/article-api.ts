@@ -55,8 +55,14 @@ const articleApi = {
         return response;
     },
     userDelete: async (id: number) => {
-        const response: ApiResponse<Article> = await getPrivateAxios().delete(
+        const response: ApiResponse<string> = await getPrivateAxios().delete(
             `article/author/${id}`
+        );
+        return response;
+    },
+    delete: async (id: number) => {
+        const response: ApiResponse<string> = await getPrivateAxios().delete(
+            `article/${id}`
         );
         return response;
     },
