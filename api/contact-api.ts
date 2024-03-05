@@ -3,14 +3,13 @@ import { getPrivateAxios, getPublicAxios } from ".";
 import { ApiResponse, PaginatedData } from "@/types";
 import { Contact, ContactParams } from "@/types/contact";
 
+type ContactResponse =  ApiResponse<Contact> 
+
 const contactApi = {
-    create: async (body: ContactRequest) => {
-        const response: ApiResponse<Contact> = await getPublicAxios().post(
-            "contact",
-            body
-        );
-        return response;
-    },
+    create: (body: ContactRequest): Promise<ContactResponse> => getPublicAxios().post(
+        "contact",
+        body
+    ),
     delete: async (id: number) => {
         const response: ApiResponse<boolean> = await getPrivateAxios().delete(
             `contact/${id}`
