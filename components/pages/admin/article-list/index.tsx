@@ -13,7 +13,12 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Link from "next/link";
-import { RiDeleteBin7Line, RiEdit2Line } from "react-icons/ri";
+import {
+    RiCheckLine,
+    RiCloseLine,
+    RiDeleteBin7Line,
+    RiEdit2Line,
+} from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import { createSearchParams } from "@/lib/utils";
 import useDialogStore from "@/zustand/use-dialog-store";
@@ -22,12 +27,14 @@ import Image from "next/image";
 import { FormEventHandler, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import CellCheck from "@/components/common/data-table/cell-check";
 
 type Props = {
     currentPage?: number;
+    keyword?: string;
 };
 
-const ArticleListPage = ({ currentPage = 1 }: Props) => {
+const ArticleListPage = ({ currentPage = 1, keyword = "" }: Props) => {
     const router = useRouter();
 
     const queryClient = useQueryClient();
@@ -38,12 +45,39 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
     const [isCheckAll, setIsCheckAll] = useState<boolean>(false);
 
     const query = useQuery({
-        queryKey: ["admin-article-list"],
-        queryFn: () => articleApi.paginate(),
+        queryKey: ["admin-article-list", currentPage, keyword],
+        queryFn: () =>
+            articleApi.adminPaginate({
+                p: currentPage,
+                q: keyword,
+                limit: 10,
+            }),
     });
 
     const deleteArticleMutation = useMutation({
         mutationFn: (id: number) => articleApi.delete(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["admin-article-list"],
+            });
+        },
+    });
+
+    const deleteArticlesMutation = useMutation({
+        mutationFn: (ids: number[]) => articleApi.deleteMultiple(ids),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["admin-article-list"],
+            });
+            setCheckedIds([]);
+            if (isCheckAll) {
+                setIsCheckAll(false);
+            }
+        },
+    });
+
+    const updateArticleMutation = useMutation({
+        mutationFn: (article: Article) => articleApi.update(article),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["admin-article-list"],
@@ -57,7 +91,7 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
                 deleteArticleMutation.mutate(id);
             },
             description:
-                "This action cannot be undone. This will permanently delete your article.",
+                "This action cannot be undone. This will permanently delete this article.",
         });
     };
 
@@ -65,6 +99,7 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
         router.push(
             `/admin/article?${createSearchParams({
                 ...(newPage > 1 ? { p: newPage } : {}),
+                ...(keyword ? { q: keyword } : {}),
             })}`
         );
     };
@@ -77,8 +112,27 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
         }
     };
 
+    const handleDeleteMutiple = () => {
+        show({
+            onConfirm: () => {
+                deleteArticlesMutation.mutate(checkedIds);
+            },
+            description:
+                "This action cannot be undone. This will permanently delete this articles.",
+        });
+    };
+
+    const handleSearch = (keyword: string) => {
+        router.push(
+            `/admin/article?${createSearchParams({
+                ...(keyword ? { q: keyword } : {}),
+                ...(currentPage > 1 ? { p: currentPage } : {}),
+            })}`
+        );
+    };
+
     return (
-        <div>
+        <section>
             <Box title="Article List">
                 <DataTable
                     tableOptions={{
@@ -144,6 +198,38 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
                                     row.category?.name || "",
                             },
                             {
+                                field: "approved",
+                                text: "Approved",
+                                className: "w-7",
+                                render: (row: Article) => (
+                                    <CellCheck
+                                        value={row.approved}
+                                        onClick={() =>
+                                            updateArticleMutation.mutate({
+                                                ...row,
+                                                approved: !row.approved,
+                                            })
+                                        }
+                                    />
+                                ),
+                            },
+                            {
+                                field: "is_public",
+                                text: "Public",
+                                className: "w-7",
+                                render: (row: Article) => (
+                                    <CellCheck
+                                        value={row.is_public}
+                                        onClick={() =>
+                                            updateArticleMutation.mutate({
+                                                ...row,
+                                                is_public: !row.is_public,
+                                            })
+                                        }
+                                    />
+                                ),
+                            },
+                            {
                                 field: "author",
                                 text: "Author",
                                 render: (row: Article) => row.author.full_name,
@@ -151,11 +237,19 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
                             {
                                 field: "createdAt",
                                 text: "Created At",
-                                className: "w-48 text-center",
-                                render: (row) =>
-                                    moment(row.created_at).format(
-                                        "MMM DD, YYYY H:m A"
-                                    ),
+                                className: "w-24 text-center",
+                                render: (row) => {
+                                    const [date, time] = moment(row.created_at)
+                                        .format("MM/DD/YYYY hh:mm:ss")
+                                        .split(" ");
+
+                                    return (
+                                        <>
+                                            <p>{date}</p>
+                                            <p>{time}</p>
+                                        </>
+                                    );
+                                },
                             },
                             {
                                 field: "actions",
@@ -215,7 +309,7 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
                         },
                         deleteButton: {
                             onClick: () => {
-                                console.log("delete many");
+                                handleDeleteMutiple();
                             },
                             text:
                                 query.data &&
@@ -224,11 +318,16 @@ const ArticleListPage = ({ currentPage = 1 }: Props) => {
                                     : checkedIds.length > 0
                                     ? `Delete (${checkedIds.length})`
                                     : "Delete"),
+                            disabled: checkedIds.length === 0,
+                        },
+                        searchForm: {
+                            defaultValue: keyword,
+                            onSubmit: handleSearch,
                         },
                     }}
                 />
             </Box>
-        </div>
+        </section>
     );
 };
 

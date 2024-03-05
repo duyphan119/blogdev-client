@@ -17,6 +17,7 @@ export type Article = {
     introduction_text: string;
     is_public: boolean;
     tags: ArticleTag[];
+    approved: boolean;
 };
 
 export type ArticleParams = {

@@ -4,6 +4,7 @@ export type CategoryParent = {
     slug: string;
     description: string;
     created_at: string;
+    is_public: boolean;
 };
 
 export type CategoryParentParams = {
@@ -11,5 +12,5 @@ export type CategoryParentParams = {
     limit?: number;
     sort_by?: string;
     sort_type?: string;
-    keyword?: string;
+    q?: string;
 };

@@ -19,6 +19,7 @@ export type Category = {
     description: string;
     created_at: string;
     parent: CategoryParent;
+    is_public: boolean;
 };
 
 export type CategoryParams = {
@@ -27,10 +28,5 @@ export type CategoryParams = {
     sort_by?: string;
     sort_type?: string;
     keyword?: string;
-};
-
-export type GetAllCategoryParams = {
-    sort_by?: string;
-    sort_type?: string;
-    no_paginate?: boolean;
+    parent?: string;
 };

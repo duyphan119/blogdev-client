@@ -31,7 +31,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={roboto.className}>
-                <NextTopLoader />
+                <NextTopLoader color="#f12" zIndex={2000} />
                 <QueryWrapper>
                     <ThemeProvider
                         attribute="class"

@@ -1,7 +1,7 @@
 "use client";
 
 import { icons } from "@/lib/icon";
-import React from "react";
+
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";

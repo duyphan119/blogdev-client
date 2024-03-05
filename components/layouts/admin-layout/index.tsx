@@ -9,6 +9,9 @@ import { useMediaQuery } from "react-responsive";
 import Header from "./header";
 import Sidebar from "./sidebar";
 import { cn } from "@/lib/utils";
+import ScrollToTop from "@/components/common/scroll-to-top";
+import { Toaster } from "@/components/ui/toaster";
+import DialogContainer from "@/components/common/dialog-container";
 
 type Props = {
     children: ReactNode;
@@ -43,20 +46,25 @@ const Content = (props: ContentProps) => {
         redirect("/login");
     else {
         return (
-            <div className="flex flex-col min-h-screen">
-                <Header
-                    onToggleSidebar={handleToggleSidebar}
-                    open={sidebarOpen}
-                />
-                <div className={cn("relative overflow-y-auto flex flex-1")}>
-                    <Sidebar open={sidebarOpen} onClose={handleClose} />
-                    <main
-                        className={`sm:p-6 bg-lightgrey transition-all duration-500 flex-1`}
-                    >
-                        <div className="h-full">{props.children}</div>
-                    </main>
+            <>
+                <div className="flex flex-col min-h-screen">
+                    <Header
+                        onToggleSidebar={handleToggleSidebar}
+                        open={sidebarOpen}
+                    />
+                    <div className={cn("relative overflow-y-auto flex flex-1")}>
+                        <Sidebar open={sidebarOpen} onClose={handleClose} />
+                        <main
+                            className={`sm:p-6 bg-lightgrey transition-all duration-500 flex-1`}
+                        >
+                            <div className="h-full">{props.children}</div>
+                        </main>
+                    </div>
                 </div>
-            </div>
+                <ScrollToTop />
+                <Toaster />
+                <DialogContainer />
+            </>
         );
     }
 };

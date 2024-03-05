@@ -12,12 +12,11 @@ type Props = {
 };
 
 const AuthenticationWrapper = (props: Props) => {
-    const { setProfile, profile } = useUserStore();
+    const { setProfile } = useUserStore();
 
     const {
         data: response,
         isFetching,
-        isFetched,
         isSuccess,
     } = useQuery({
         queryKey: ["profile"],
@@ -34,19 +33,22 @@ const AuthenticationWrapper = (props: Props) => {
     useEffect(() => {
         if (isSuccess) {
             const fetchRoleList = async () => {
-                let roles: Role[] = [];
-                try {
-                    const { message, data } = await roleApi.getAll();
-                    roles = message === "Success" ? data : [];
-                } catch (error) {}
-                setProfile({
-                    ...response.data,
-                    roles,
-                });
+                // let roles: Role[] = [];
+                // try {
+                //     const { message, data } = await roleApi.getAll();
+                //     roles = message === "Success" ? data : [];
+                // } catch (error) {}
+
+                // setProfile({
+                //     ...response.data,
+                //     roles,
+                // });
+                console.log(response.data);
+                setProfile(response.data);
             };
 
             fetchRoleList();
-        } else if (isFetched) {
+        } else {
             setProfile(null);
         }
     }, [isSuccess]);

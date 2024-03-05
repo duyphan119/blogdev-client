@@ -16,7 +16,7 @@ const HeaderMenu = (props: Props) => {
     const { profile, isFetchedProfile } = useUserStore();
 
     return (
-        <div className="fixed top-16 bottom-0 left-0 right-0 z-[11] bg-white space-y-4 p-8">
+        <div className="fixed top-16 bottom-0 left-0 right-0 z-[11] bg-primary-foreground dark:bg-primary-foreground text-primary dark:text-primary space-y-4 p-8 border-t border-t-border">
             <ul className="space-y-4">
                 {categoryParentList.map((item) => {
                     return (

@@ -20,7 +20,12 @@ const Box = ({
     title = "Box Title",
 }: Props) => {
     return (
-        <div className={cn("shadow-md", className)}>
+        <div
+            className={cn(
+                "shadow-md bg-primary-foreground dark:bg-primary-foreground",
+                className
+            )}
+        >
             <div
                 className={cn(
                     "p-4 font-medium text-lg capitalize",

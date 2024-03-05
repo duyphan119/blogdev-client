@@ -1,24 +1,23 @@
 "use client";
 
+import ButtonDarkMode from "@/components/common/button/button-dark-mode";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import useUserStore from "@/zustand/use-user-store";
+import { setCookie } from "cookies-next";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Fragment, useEffect, useState } from "react";
 import {
+    RiCloseFill,
     RiMenuFill,
     RiSearchLine,
-    RiArrowDropDownFill,
     RiUser6Line,
-    RiCloseFill,
 } from "react-icons/ri";
-import { Button, buttonVariants } from "@/components/ui/button";
-import Logo from "./logo";
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import { navItems } from "./data";
-import { Fragment, useEffect, useState } from "react";
-import { setCookie } from "cookies-next";
-import { usePathname } from "next/navigation";
-import useUserStore from "@/zustand/use-user-store";
-import { cn } from "@/lib/utils";
 import HeaderMenu from "./header-menu";
-import ButtonDarkMode from "@/components/common/button/button-dark-mode";
+import Logo from "./logo";
 
 type Props = {};
 

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Logo from "../header/logo";
 import { Separator } from "@/components/ui/separator";
 import { moreFromBLDEV, others, socialMediaList } from "./data";

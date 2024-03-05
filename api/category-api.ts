@@ -1,37 +1,37 @@
-import {
-    Category,
-    CategoryParams,
-    GetAllCategoryParams,
-} from "@/types/category";
+import { Category, CategoryParams } from "@/types/category";
 import { getPrivateAxios, getPublicAxios } from ".";
 import { ApiResponse, PaginatedData } from "@/types";
 
-const categoryApi = {
-    getAll: async (
-        params?: GetAllCategoryParams
-    ): Promise<ApiResponse<Category[]>> =>
-        getPublicAxios().get("category", {
-            params: {
-                no_paginate: true,
-                ...params,
-            },
-        }),
+type CategoryResponse = ApiResponse<Category>;
+type CategoryListResponse = ApiResponse<PaginatedData<Category>>;
+type DeletedResponse = ApiResponse<string>;
 
-    getBySlug: async (slug: string): Promise<ApiResponse<Category>> =>
+const categoryApi = {
+    getBySlug: async (slug: string): Promise<CategoryResponse> =>
         getPublicAxios().get(`category/slug/${slug}`),
 
-    paginate: async (
+    adminPaginate: async (
         params?: CategoryParams
-    ): Promise<ApiResponse<PaginatedData<Category>>> =>
+    ): Promise<CategoryListResponse> =>
+        getPrivateAxios().get("category/admin", {
+            params,
+        }),
+
+    paginate: async (params?: CategoryParams): Promise<CategoryListResponse> =>
         getPublicAxios().get("category", {
             params,
         }),
-    delete: async (id: number) => {
-        const response: ApiResponse<string> = await getPrivateAxios().delete(
-            `category/${id}`
-        );
-        return response;
-    },
+
+    delete: async (id: number): Promise<DeletedResponse> =>
+        getPrivateAxios().delete(`category/${id}`),
+
+    deleteMultiple: (ids: number[]): Promise<DeletedResponse> =>
+        getPrivateAxios().delete(`category`, {
+            params: { ids: ids.join("_") },
+        }),
+
+    update: async (body: Category): Promise<CategoryResponse> =>
+        getPrivateAxios().patch(`category-parent/${body.id}`, body),
 };
 
 export default categoryApi;

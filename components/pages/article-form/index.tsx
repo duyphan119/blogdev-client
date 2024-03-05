@@ -77,10 +77,9 @@ const ArticleForm = (props: Props) => {
         queryKey: ["category-list", props.articleId],
         queryFn: () =>
             Promise.allSettled([
-                categoryApi.getAll({
+                categoryApi.paginate({
                     sort_by: "name",
                     sort_type: "asc",
-                    no_paginate: true,
                 }),
                 articleApi.getById(Number(props.articleId)),
             ]),
@@ -118,7 +117,7 @@ const ArticleForm = (props: Props) => {
 
     const showCategoryList = () => {
         if (query.data?.[0].status === "fulfilled") {
-            return query.data[0].value.data.map((category) => {
+            return query.data[0].value.data.rows.map((category) => {
                 return (
                     <SelectItem
                         key={category.id}

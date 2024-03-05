@@ -7,6 +7,7 @@ import {
     TableRow,
     TableCell,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
 export type Column = {
@@ -21,9 +22,15 @@ export type TableProps = {
     rows?: any[];
     columns?: Column[];
     caption?: string;
+    onRowClick?: (row: any) => void;
 };
 
-const CustomTable = ({ rows = [], columns = [], caption }: TableProps) => {
+const CustomTable = ({
+    rows = [],
+    columns = [],
+    caption,
+    onRowClick,
+}: TableProps) => {
     const renderColumns = () => {
         return columns.map((column) => {
             return (
@@ -37,33 +44,25 @@ const CustomTable = ({ rows = [], columns = [], caption }: TableProps) => {
     const renderRows = () => {
         return rows.map((row, index) => {
             return (
-                <TableRow key={row.id || index}>
+                <TableRow
+                    key={row.id || index}
+                    onClick={() => onRowClick?.(row)}
+                    className={cn(onRowClick && "cursor-pointer")}
+                >
                     {columns.map((column) => {
                         const text = row[column.field] || "";
-                        if (column.field === "index")
-                            return (
-                                <TableCell
-                                    key={column.field}
-                                    className={column.className}
-                                >
-                                    {index + 1}
-                                </TableCell>
-                            );
-                        if (column.render)
-                            return (
-                                <TableCell
-                                    key={column.field}
-                                    className={column.className}
-                                >
-                                    {column.render(row)}
-                                </TableCell>
-                            );
                         return (
                             <TableCell
                                 key={column.field}
                                 className={column.className}
                             >
-                                {text}
+                                {(() => {
+                                    if (column.field === "index")
+                                        return index + 1;
+                                    if (column.render)
+                                        return column.render(row);
+                                    return text;
+                                })()}
                             </TableCell>
                         );
                     })}

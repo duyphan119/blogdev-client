@@ -1,12 +1,13 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useEffect, useMemo } from "react";
 import { IconType } from "react-icons";
+import { MdOutlineGroupWork } from "react-icons/md";
 import { RiLogoutBoxLine, RiNewspaperLine, RiUser2Line } from "react-icons/ri";
 import { TbCategory2 } from "react-icons/tb";
 import { useMediaQuery } from "react-responsive";
 import SidebarItem from "./sidebar-item";
-import { cn } from "@/lib/utils";
 
 type Props = {
     open: boolean;
@@ -30,7 +31,20 @@ const Sidebar = (props: Props) => {
                 label: "Category",
                 title: "Category",
                 icon: TbCategory2,
-                href: "/admin/category",
+                children: [
+                    {
+                        label: "Category Parent",
+                        title: "Category Parent",
+                        icon: MdOutlineGroupWork,
+                        href: "/admin/category-parent",
+                    },
+                    {
+                        label: "Category",
+                        title: "Category",
+                        icon: TbCategory2,
+                        href: "/admin/category",
+                    },
+                ],
             },
             {
                 label: "Article",
