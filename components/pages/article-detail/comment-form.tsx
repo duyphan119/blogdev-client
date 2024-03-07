@@ -1,8 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import articleCommentApi from "@/api/article-comment-api";
 import ButtonLoading from "@/components/common/button/button-loading";
 import { buttonVariants } from "@/components/ui/button";
@@ -15,13 +12,14 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { ArticleComment } from "@/types/article-comment";
 import useUserStore from "@/zustand/use-user-store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type Props = {
     articleId: number;
@@ -31,6 +29,11 @@ const formSchema = z.object({
     content: z.string().min(1, {
         message: "Content must be at least 1 characters.",
     }),
+    article: z.object({
+        id: z.number().min(1, {
+            message: "Article Id is required"
+        })
+    })
 });
 
 export type ArticleCommentRequest = z.infer<typeof formSchema>;
@@ -54,16 +57,14 @@ const CommentForm = (props: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             content: "",
+            article: {
+                id: props.articleId
+            }
         },
     });
 
-    const onSubmit = async (values: ArticleCommentRequest) => {
-        createArticleCommentMutation.mutate({
-            ...values,
-            article: {
-                id: props.articleId,
-            },
-        });
+    const onSubmit = (values: ArticleCommentRequest) => {
+        createArticleCommentMutation.mutate(values);
     };
 
     return (

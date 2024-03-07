@@ -7,57 +7,59 @@ type ArticleResponse = ApiResponse<Article>;
 type ArticleListResponse = ApiResponse<PaginatedData<Article>>;
 type DeletedResponse = ApiResponse<string>;
 
+const name = "article";
+
 const articleApi = {
     paginate: (params?: ArticleParams): Promise<ArticleListResponse> =>
-        getPublicAxios().get("article", {
+        getPublicAxios().get(name, {
             params,
         }),
 
     adminPaginate: (params?: ArticleParams): Promise<ArticleListResponse> =>
-        getPrivateAxios().get("article/admin", {
+        getPrivateAxios().get(`${name}/admin`, {
             params,
         }),
 
     getBySlug: (slug: string): Promise<ArticleResponse> =>
-        getPublicAxios().get(`article/slug/${slug}`),
+        getPublicAxios().get(`${name}/slug/${slug}`),
 
     getById: (id: number): Promise<ArticleResponse> =>
-        getPublicAxios().get(`article/id/${id}`),
+        getPublicAxios().get(`${name}/id/${id}`),
 
     getByAuthorId: (
         authorId: number,
         params?: ArticleParams
     ): Promise<ApiResponse<AuthorArticles>> =>
-        getPublicAxios().get(`article/author/${authorId}`, {
+        getPublicAxios().get(`${name}/author/${authorId}`, {
             params,
         }),
 
     getRecommendList: (slug: string) =>
-        getPublicAxios().get(`article/recommend/slug/${slug}`),
+        getPublicAxios().get(`${name}/recommend/slug/${slug}`),
 
     getMyPosts: (params?: ArticleParams) =>
-        getPrivateAxios().get("article/author", { params }),
+        getPrivateAxios().get(`${name}/author`, { params }),
 
     create: (body: ArticleRequest): Promise<ArticleResponse> =>
-        getPrivateAxios().post("article", body),
+        getPrivateAxios().post(name, body),
 
     update: (body: Article): Promise<ArticleResponse> =>
-        getPrivateAxios().patch(`article/${body.id}`, body),
+        getPrivateAxios().patch(`${name}/${body.id}`, body),
 
     userCreate: (body: ArticleRequest): Promise<ArticleResponse> =>
-        getPrivateAxios().post("article/author", body),
+        getPrivateAxios().post(`${name}/author`, body),
 
     userUpdate: (body: Article): Promise<ArticleResponse> =>
-        getPrivateAxios().patch(`article/author/${body.id}`, body),
+        getPrivateAxios().patch(`${name}/author/${body.id}`, body),
 
     userDelete: (id: number): Promise<DeletedResponse> =>
-        getPrivateAxios().delete(`article/author/${id}`),
+        getPrivateAxios().delete(`${name}/author/${id}`),
 
     delete: (id: number): Promise<DeletedResponse> =>
-        getPrivateAxios().delete(`article/${id}`),
+        getPrivateAxios().delete(`${name}/${id}`),
 
     deleteMultiple: (ids: number[]): Promise<DeletedResponse> =>
-        getPrivateAxios().delete(`article`, { params: { ids: ids.join("_") } }),
+        getPrivateAxios().delete(name, { params: { ids: ids.join("_") } }),
 };
 
 export default articleApi;

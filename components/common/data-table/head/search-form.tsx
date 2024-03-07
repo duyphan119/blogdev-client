@@ -9,58 +9,55 @@ import { RiSearch2Line } from "react-icons/ri";
 import * as z from "zod";
 
 export type SearchFormProps = {
-    defaultValue?: string;
-    onSubmit: (value: string) => void;
+  defaultValue?: string;
+  onSubmit: (value: string) => void;
 };
 
 const formSchema = z.object({
-    keyword: z.string(),
+  keyword: z.string(),
 });
 
 export type SearchFormFields = z.infer<typeof formSchema>;
 
 const SearchForm = (props: SearchFormProps) => {
-    if (!props) return null;
+  if (!props) return null;
 
-    const form = useForm<SearchFormFields>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            keyword: props.defaultValue || "",
-        },
-    });
+  const form = useForm<SearchFormFields>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      keyword: props.defaultValue || "",
+    },
+  });
 
-    const onSubmit = (values: SearchFormFields) => {
-        props.onSubmit(values.keyword);
-    };
+  const onSubmit = (values: SearchFormFields) => {
+    props.onSubmit(values.keyword);
+  };
 
-    return (
-        <Form {...form}>
-            <form
-                className="flex gap-2 flex-1 justify-end"
-                onSubmit={form.handleSubmit(onSubmit)}
-            >
-                <FormField
-                    control={form.control}
-                    name="keyword"
-                    render={({ field }) => {
-                        return (
-                            <FormControl className="max-w-56">
-                                <FormItem>
-                                    <Input
-                                        placeholder="Search here..."
-                                        {...field}
-                                    />
-                                </FormItem>
-                            </FormControl>
-                        );
-                    }}
-                />
-                <Button>
-                    <RiSearch2Line />
-                </Button>
-            </form>
-        </Form>
-    );
+  return (
+    <Form {...form}>
+      <form
+        className="flex gap-2 sm:flex-1 justify-end w-full"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="keyword"
+          render={({ field }) => {
+            return (
+              <FormControl className="sm:max-w-56 w-full sm:w-auto">
+                <FormItem>
+                  <Input placeholder="Search here..." {...field} />
+                </FormItem>
+              </FormControl>
+            );
+          }}
+        />
+        <Button>
+          <RiSearch2Line />
+        </Button>
+      </form>
+    </Form>
+  );
 };
 
 export default SearchForm;

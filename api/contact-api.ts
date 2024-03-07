@@ -3,24 +3,21 @@ import { getPrivateAxios, getPublicAxios } from ".";
 import { ApiResponse, PaginatedData } from "@/types";
 import { Contact, ContactParams } from "@/types/contact";
 
-type ContactResponse =  ApiResponse<Contact> 
+type ContactResponse =  ApiResponse<Contact>;
+type DeletedResponse = ApiResponse<string>;
+type ContactsResponse = ApiResponse<PaginatedData<Contact>>
 
 const contactApi = {
     create: (body: ContactRequest): Promise<ContactResponse> => getPublicAxios().post(
         "contact",
         body
     ),
-    delete: async (id: number) => {
-        const response: ApiResponse<boolean> = await getPrivateAxios().delete(
-            `contact/${id}`
-        );
-        return response;
-    },
-    paginate: async (params?: ContactParams) => {
-        const response: ApiResponse<PaginatedData<Contact>> =
-            await getPrivateAxios().get("contact", { params });
-        return response;
-    },
+    
+    delete: (id: number) :Promise<DeletedResponse>=> getPrivateAxios().delete(
+        `contact/${id}`
+    ),
+
+    paginate:  (params?: ContactParams) : Promise<ContactsResponse>=> getPrivateAxios().get("contact", { params }),
 };
 
 export default contactApi;

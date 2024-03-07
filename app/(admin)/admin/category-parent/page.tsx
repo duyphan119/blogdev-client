@@ -3,17 +3,18 @@ import { formatTitle } from "@/lib/utils";
 import { Metadata } from "next";
 
 type Props = {
-    searchParams: {
-        p?: string;
-    };
+  searchParams: {
+    p?: string;
+    q?: string;
+  };
 };
 
 export const metadata: Metadata = {
-    title: formatTitle("Admin - Category Parent List"),
+  title: formatTitle("Admin - Category Parent List"),
 };
 
-const AdminCategoryParentPage = ({ searchParams: { p } }: Props) => {
-    return <CategoryParentListPage currentPage={+(p || "1")} />;
+const AdminCategoryParentPage = ({ searchParams: { p, q } }: Props) => {
+  return <CategoryParentListPage currentPage={+(p || "1")} keyword={q} />;
 };
 
 export default AdminCategoryParentPage;

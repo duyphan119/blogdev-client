@@ -1,36 +1,45 @@
 import { ApiResponse, PaginatedData } from "@/types";
 import { CategoryParent, CategoryParentParams } from "@/types/category-parent";
 import { getPrivateAxios, getPublicAxios } from ".";
+import { CategoryParentRequest } from "@/components/category-parent/category-parent-form";
 
 type CategoryParentResponse = ApiResponse<CategoryParent>;
 type CategoryParentListResponse = ApiResponse<PaginatedData<CategoryParent>>;
 type DeletedResponse = ApiResponse<string>;
 
+const name = "category-parent";
+
 const categoryParentApi = {
-    paginate: async (
-        params?: CategoryParentParams
-    ): Promise<CategoryParentListResponse> =>
-        getPublicAxios().get("category-parent", {
-            params,
-        }),
+  paginate: (
+    params?: CategoryParentParams
+  ): Promise<CategoryParentListResponse> =>
+    getPublicAxios().get(name, {
+      params,
+    }),
 
-    adminPaginate: async (
-        params?: CategoryParentParams
-    ): Promise<CategoryParentListResponse> =>
-        getPrivateAxios().get("category-parent/admin", {
-            params,
-        }),
+  adminPaginate: (
+    params?: CategoryParentParams
+  ): Promise<CategoryParentListResponse> =>
+    getPrivateAxios().get(`${name}/admin`, {
+      params,
+    }),
 
-    delete: async (id: number): Promise<DeletedResponse> =>
-        getPrivateAxios().delete(`category-parent/${id}`),
+  getById: (id: number): Promise<CategoryParentResponse> =>
+    getPublicAxios().get(`${name}/${id}`),
 
-    deleteMultiple: async (ids: number[]): Promise<DeletedResponse> =>
-        getPrivateAxios().delete(`category-parent`, {
-            params: { ids: ids.join("_") },
-        }),
+  delete: (id: number): Promise<DeletedResponse> =>
+    getPrivateAxios().delete(`${name}/${id}`),
 
-    update: async (body: CategoryParent): Promise<CategoryParentResponse> =>
-        getPrivateAxios().patch(`category-parent/${body.id}`, body),
+  deleteMultiple: (ids: number[]): Promise<DeletedResponse> =>
+    getPrivateAxios().delete(name, {
+      params: { ids: ids.join(`_`) },
+    }),
+
+  update: (body: CategoryParent): Promise<CategoryParentResponse> =>
+    getPrivateAxios().patch(`${name}/${body.id}`, body),
+
+  create: (body: CategoryParentRequest): Promise<CategoryParentResponse> =>
+    getPrivateAxios().post(name, body),
 };
 
 export default categoryParentApi;
